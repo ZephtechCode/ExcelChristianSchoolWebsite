@@ -1,4 +1,5 @@
 import {
+  json,
   Links,
   Meta,
   Outlet,
@@ -6,6 +7,24 @@ import {
   ScrollRestoration,
 } from "@remix-run/react";
 import "./tailwind.css";
+import Nav from "./components/Nav";
+
+export async function loader({ params }: any) {
+  const response = await fetch(
+    `${process.env.STRAPI_URL}/api/navigation?populate=*`,
+    {
+      headers: {
+        Authorization: `Bearer ${process.env.STRAPI_API_KEY}`,
+      },
+    }
+  );
+  const data = await response.json();
+  if (data.data.length === 0) {
+    throw new Response("Not Found", { status: 404 });
+  }
+
+  return json(data.data);
+}
 
 export function Layout({ children }: { children: React.ReactNode }) {
   return (
@@ -17,7 +36,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <Links />
       </head>
       <body>
-        <p>test</p>
+        <Nav />
         {children}
         <ScrollRestoration />
         <Scripts />
