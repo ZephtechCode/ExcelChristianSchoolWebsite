@@ -22,7 +22,7 @@ export async function loader({ params }: any) {
 
 export default function DynamicPage() {
   const page = useLoaderData() as any;
-  const { Title, Content } = page.attributes;
+  const { Title, Content } = page?.attributes;
 
   return (
     <div>

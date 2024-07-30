@@ -52,17 +52,6 @@ function sortMenuItems(items: MenuItem[]): MenuItem[] {
     }));
 }
 
-function renderMenuItem(item: MenuItem) {
-  if (item.External) {
-    return (
-      <a href={item.URL} target="_blank" rel="noopener noreferrer">
-        {item.Label}
-      </a>
-    );
-  }
-  return <Link to={item.URL}>{item.Label}</Link>;
-}
-
 export default function Nav() {
   const data = useLoaderData() as any;
   const { MenuItem } = data.attributes;
@@ -72,7 +61,7 @@ export default function Nav() {
       <NavigationMenu>
         <NavigationMenuList className="w-screen">
           {navigation.map((item: MenuItem) => (
-            <NavigationMenuItem>
+            <NavigationMenuItem key={item.id}>
               {item.children!.length > 0 ? (
                 <>
                   <NavigationMenuTrigger>{item.Label}</NavigationMenuTrigger>
@@ -81,11 +70,12 @@ export default function Nav() {
                   </NavigationMenuContent>
                 </>
               ) : (
-                <Link to={item.URL}>
-                  <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-                    {item.Label}
-                  </NavigationMenuLink>
-                </Link>
+                <NavigationMenuLink
+                  asChild
+                  className={navigationMenuTriggerStyle()}
+                >
+                  <Link to={item.URL}>{item.Label}</Link>
+                </NavigationMenuLink>
               )}
             </NavigationMenuItem>
           ))}
