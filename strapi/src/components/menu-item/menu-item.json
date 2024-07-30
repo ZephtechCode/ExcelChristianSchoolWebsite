@@ -1,0 +1,25 @@
+{
+  "collectionName": "components_menu_item_menu_items",
+  "info": {
+    "displayName": "Menu Item",
+    "description": ""
+  },
+  "options": {},
+  "attributes": {
+    "URL": {
+      "type": "string"
+    },
+    "Label": {
+      "type": "string"
+    },
+    "External": {
+      "type": "boolean"
+    },
+    "Order": {
+      "type": "integer"
+    },
+    "Parent": {
+      "type": "string"
+    }
+  }
+}

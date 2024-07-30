@@ -1,3 +1,12 @@
+import {
+  NavigationMenu,
+  NavigationMenuContent,
+  NavigationMenuItem,
+  NavigationMenuLink,
+  NavigationMenuList,
+  NavigationMenuTrigger,
+  navigationMenuTriggerStyle,
+} from "@/components/ui/navigation-menu";
 import { Link, useLoaderData } from "@remix-run/react";
 type MenuItem = {
   id: number;
@@ -57,15 +66,31 @@ function renderMenuItem(item: MenuItem) {
 export default function Nav() {
   const data = useLoaderData() as any;
   const { MenuItem } = data.attributes;
-  const sorted = assembleMenuItems(MenuItem);
-  console.log("sorted", sorted);
+  const navigation = assembleMenuItems(MenuItem);
   return (
-    <nav>
-      <ul>
-        {sorted.map((item: MenuItem) => (
-          <li key={item.id}>{renderMenuItem(item)}</li>
-        ))}
-      </ul>
-    </nav>
+    <div className="w-full">
+      <NavigationMenu>
+        <NavigationMenuList className="w-screen">
+          {navigation.map((item: MenuItem) => (
+            <NavigationMenuItem>
+              {item.children!.length > 0 ? (
+                <>
+                  <NavigationMenuTrigger>{item.Label}</NavigationMenuTrigger>
+                  <NavigationMenuContent>
+                    <ul className="grid gap-3 p-6 md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr]"></ul>
+                  </NavigationMenuContent>
+                </>
+              ) : (
+                <Link to={item.URL}>
+                  <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+                    {item.Label}
+                  </NavigationMenuLink>
+                </Link>
+              )}
+            </NavigationMenuItem>
+          ))}
+        </NavigationMenuList>
+      </NavigationMenu>
+    </div>
   );
 }

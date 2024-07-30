@@ -6,10 +6,10 @@ import {
   Scripts,
   ScrollRestoration,
 } from "@remix-run/react";
-import "./tailwind.css";
+import "./globals.css";
 import Nav from "./components/Nav";
 
-export async function loader({ params }: any) {
+export async function loader() {
   const response = await fetch(
     `${process.env.STRAPI_URL}/api/navigation?populate=*`,
     {
