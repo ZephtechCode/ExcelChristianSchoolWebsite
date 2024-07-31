@@ -57,30 +57,32 @@ export default function Nav() {
   const { MenuItem } = data.attributes;
   const navigation = assembleMenuItems(MenuItem);
   return (
-    <div className="w-full">
-      <NavigationMenu>
-        <NavigationMenuList className="w-screen">
-          {navigation.map((item: MenuItem) => (
-            <NavigationMenuItem key={item.id}>
-              {item.children!.length > 0 ? (
-                <>
-                  <NavigationMenuTrigger>{item.Label}</NavigationMenuTrigger>
-                  <NavigationMenuContent>
-                    <ul className="grid gap-3 p-6 md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr]"></ul>
-                  </NavigationMenuContent>
-                </>
-              ) : (
-                <NavigationMenuLink
-                  asChild
-                  className={navigationMenuTriggerStyle()}
-                >
-                  <Link to={item.URL}>{item.Label}</Link>
-                </NavigationMenuLink>
-              )}
+    <NavigationMenu>
+      <NavigationMenuList className="w-screen">
+        {navigation.map((item: MenuItem) =>
+          item.children!.length > 0 ? (
+            <NavigationMenuItem className="relative" key={item.id}>
+              <NavigationMenuTrigger>{item.Label}</NavigationMenuTrigger>
+              <NavigationMenuContent className="mt-4">
+                <ul className="p-6">
+                  {item.children!.map((item: MenuItem) => (
+                    <li>{item.Label}</li>
+                  ))}
+                </ul>
+              </NavigationMenuContent>
             </NavigationMenuItem>
-          ))}
-        </NavigationMenuList>
-      </NavigationMenu>
-    </div>
+          ) : (
+            <NavigationMenuItem key={item.id}>
+              <NavigationMenuLink
+                asChild
+                className={navigationMenuTriggerStyle()}
+              >
+                <Link to={item.URL}>{item.Label}</Link>
+              </NavigationMenuLink>
+            </NavigationMenuItem>
+          )
+        )}
+      </NavigationMenuList>
+    </NavigationMenu>
   );
 }
