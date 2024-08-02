@@ -62,11 +62,11 @@ export default function Nav() {
         {navigation.map((item: MenuItem) =>
           item.children!.length > 0 ? (
             <NavigationMenuItem className="relative" key={item.id}>
-              <NavigationMenuTrigger>{item.Label}</NavigationMenuTrigger>
+              <NavigationMenuTrigger className="">{item.Label}</NavigationMenuTrigger>
               <NavigationMenuContent className="mt-4">
-                <ul className="p-6">
+                <ul className=" p-6">
                   {item.children!.map((item: MenuItem) => (
-                    <li>{item.Label}</li>
+                    <li className="">{item.Label}</li>
                   ))}
                 </ul>
               </NavigationMenuContent>
