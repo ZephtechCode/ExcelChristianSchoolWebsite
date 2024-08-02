@@ -8,6 +8,7 @@ import {
   navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu";
 import { Link, useLoaderData } from "@remix-run/react";
+
 type MenuItem = {
   id: number;
   Label: string;
@@ -62,7 +63,9 @@ export default function Nav() {
         {navigation.map((item: MenuItem) =>
           item.children!.length > 0 ? (
             <NavigationMenuItem className="relative" key={item.id}>
-              <NavigationMenuTrigger className="">{item.Label}</NavigationMenuTrigger>
+              <NavigationMenuTrigger className="">
+                {item.Label}
+              </NavigationMenuTrigger>
               <NavigationMenuContent className="mt-4">
                 <ul className=" p-6">
                   {item.children!.map((item: MenuItem) => (
