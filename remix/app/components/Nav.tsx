@@ -58,7 +58,7 @@ export default function Nav() {
   const { MenuItem } = data.attributes;
   const navigation = assembleMenuItems(MenuItem);
   return (
-    <NavigationMenu>
+    <NavigationMenu className="bg-red-800 text-white">
       <NavigationMenuList className="w-screen">
         {navigation.map((item: MenuItem) =>
           item.children!.length > 0 ? (
@@ -66,7 +66,7 @@ export default function Nav() {
               <NavigationMenuTrigger className="">
                 {item.Label}
               </NavigationMenuTrigger>
-              <NavigationMenuContent className="mt-4">
+              <NavigationMenuContent className="mt-[-10px]">
                 <ul className=" p-6">
                   {item.children!.map((item: MenuItem) => (
                     <li className="">{item.Label}</li>

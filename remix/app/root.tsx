@@ -8,6 +8,7 @@ import {
 } from "@remix-run/react";
 import "./globals.css";
 import Nav from "./components/Nav";
+import Hero from "./components/Hero";
 
 export async function loader() {
   const response = await fetch(
@@ -36,6 +37,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <Links />
       </head>
       <body>
+        <Hero />
         <Nav />
         {children}
         <ScrollRestoration />
