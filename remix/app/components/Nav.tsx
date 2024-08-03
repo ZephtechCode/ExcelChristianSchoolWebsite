@@ -55,7 +55,7 @@ function sortMenuItems(items: MenuItem[]): MenuItem[] {
 
 export default function Nav() {
   const data = useLoaderData() as any;
-  const { MenuItem } = data.attributes;
+  const { MenuItem } = data.navigation.attributes;
   const navigation = assembleMenuItems(MenuItem);
   return (
     <NavigationMenu className="bg-red-800 text-white">
@@ -69,7 +69,7 @@ export default function Nav() {
               <NavigationMenuContent className="mt-[-10px]">
                 <ul className=" p-6">
                   {item.children!.map((item: MenuItem) => (
-                    <li className="">{item.Label}</li>
+                    <li key={item.id}>{item.Label}</li>
                   ))}
                 </ul>
               </NavigationMenuContent>
