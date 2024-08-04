@@ -4,15 +4,23 @@ import { faPhone } from "@fortawesome/free-solid-svg-icons";
 import { faEnvelope } from "@fortawesome/free-regular-svg-icons";
 import { useLoaderData } from "@remix-run/react";
 
+type ContactInfo = {
+  Phone: string;
+  SupportEmail: string;
+};
+
 export default function Hero() {
   const data = useLoaderData() as any;
-  const { Phone, SupportEmail } = data.contactInfo.attributes;
+  const contactInfo = data?.contactInfo as ContactInfo;
+
+  const Phone = contactInfo?.Phone;
+  const SupportEmail = contactInfo?.SupportEmail;
   return (
     <div className="flex p-8 items-center justify-between text-gray-600">
       <div className="flex items-center">
-        <img src={logo} className="mx-5" />
+        <img src={logo} className="mx-5" alt="Excel Christian School Logo" />
         <div>
-          <h1 className="text-4xl kadwa-bold ">Excel Christian School</h1>
+          <h1 className="text-4xl kadwa-bold">Excel Christian School</h1>
           <h4 className="text-lg">Excellence & Faith in Education</h4>
         </div>
       </div>
@@ -20,8 +28,7 @@ export default function Hero() {
         <div className="flex gap-4">
           <FontAwesomeIcon icon={faPhone} size="2x" className="text-red-800" />
           <div>
-            <h2 className="kadwa-regular text-lg ">Phone Number</h2>
-
+            <h2 className="kadwa-regular text-lg">Phone Number</h2>
             <a href={`tel:${Phone}`}>
               <h3 className="underline">{Phone}</h3>
             </a>

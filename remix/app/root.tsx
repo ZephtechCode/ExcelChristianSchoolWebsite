@@ -9,39 +9,16 @@ import {
 import "./globals.css";
 import Nav from "./components/Nav";
 import Hero from "./components/Hero";
+import { getNavData, getContactData } from "./utils/api";
 
 export async function loader() {
-  const navigation = await fetch(
-    `${process.env.STRAPI_URL}/api/navigation?populate=*`,
-    {
-      headers: {
-        Authorization: `Bearer ${process.env.STRAPI_API_KEY}`,
-      },
-    }
-  );
-  const contactInfo = await fetch(
-    `${process.env.STRAPI_URL}/api/contact-info?populate=*`,
-    {
-      headers: {
-        Authorization: `Bearer ${process.env.STRAPI_API_KEY}`,
-      },
-    }
-  );
-  const navigationData = await navigation.json();
-  if (navigationData.data.length === 0) {
-    throw new Response("Not Found", { status: 404 });
-  }
-  const contactInfoData = await contactInfo.json();
-  if (navigationData.data.length === 0) {
-    throw new Response("Not Found", { status: 404 });
-  }
-
+  let navData = await getNavData();
+  let contactInfo = await getContactData();
   return json({
-    navigation: navigationData.data,
-    contactInfo: contactInfoData.data,
+    navData,
+    contactInfo,
   });
 }
-
 export function Layout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
