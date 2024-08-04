@@ -8,6 +8,7 @@ import {
   navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu";
 import { Link, useLoaderData } from "@remix-run/react";
+import { Button } from "@/components/ui/nav-button";
 
 type MenuItem = {
   id: number;
@@ -67,11 +68,11 @@ export default function Nav() {
                 {item.Label}
               </NavigationMenuTrigger>
               <NavigationMenuContent className="mt-[-10px]">
-                <ul className=" p-6">
+                <NavigationMenuItem className=" p-auto">
                   {item.children!.map((item: MenuItem) => (
-                    <li key={item.id}>{item.Label}</li>
+                    <Button key={item.id}>{item.Label}</Button>
                   ))}
-                </ul>
+                </NavigationMenuItem>
               </NavigationMenuContent>
             </NavigationMenuItem>
           ) : (
