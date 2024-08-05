@@ -804,6 +804,9 @@ export interface ApiContactInfoContactInfo extends Schema.SingleType {
     SupportEmail: Attribute.Email;
     Address: Attribute.String;
     Fax: Attribute.String;
+    MapLink: Attribute.String;
+    Accreditations: Attribute.JSON;
+    Copyright: Attribute.String;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
@@ -877,6 +880,53 @@ export interface ApiPagePage extends Schema.CollectionType {
   };
 }
 
+export interface ApiSitemapLinkSitemapLink extends Schema.SingleType {
+  collectionName: 'sitemap_links';
+  info: {
+    singularName: 'sitemap-link';
+    pluralName: 'sitemap-links';
+    displayName: 'SitemapLinks';
+    description: '';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  pluginOptions: {
+    i18n: {
+      localized: true;
+    };
+  };
+  attributes: {
+    links: Attribute.JSON &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::sitemap-link.sitemap-link',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::sitemap-link.sitemap-link',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    localizations: Attribute.Relation<
+      'api::sitemap-link.sitemap-link',
+      'oneToMany',
+      'api::sitemap-link.sitemap-link'
+    >;
+    locale: Attribute.String;
+  };
+}
+
 declare module '@strapi/types' {
   export module Shared {
     export interface ContentTypes {
@@ -898,6 +948,7 @@ declare module '@strapi/types' {
       'api::contact-info.contact-info': ApiContactInfoContactInfo;
       'api::navigation.navigation': ApiNavigationNavigation;
       'api::page.page': ApiPagePage;
+      'api::sitemap-link.sitemap-link': ApiSitemapLinkSitemapLink;
     }
   }
 }

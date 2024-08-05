@@ -23,6 +23,15 @@
     },
     "Fax": {
       "type": "string"
+    },
+    "MapLink": {
+      "type": "string"
+    },
+    "Accreditations": {
+      "type": "json"
+    },
+    "Copyright": {
+      "type": "string"
     }
   }
 }
