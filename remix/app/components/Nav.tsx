@@ -10,79 +10,69 @@ import {
 import { Link, useLoaderData } from "@remix-run/react";
 import { Button } from "@/components/ui/nav-button";
 
-type MenuItem = {
-  id: number;
-  Label: string;
-  URL: string;
-  External: boolean;
-  Order: number;
-  Parent: string | null;
-  children?: MenuItem[];
+type Page = {
+  Slug: string;
+  Title: string;
+  Parent?: { Slug: string } | null;
+  Children?: Page[];
 };
 
-function assembleMenuItems(items: MenuItem[]): MenuItem[] {
-  const itemMap = new Map<string, MenuItem>();
-  const rootItems: MenuItem[] = [];
-
-  items.forEach((item) => {
-    itemMap.set(item.Label.toString(), { ...item, children: [] });
-  });
-
-  items.forEach((item) => {
-    const menuItem = itemMap.get(item.Label.toString())!;
-    if (item.Parent) {
-      const parent = itemMap.get(item.Parent);
-      if (parent) {
-        parent.children!.push(menuItem);
-      } else {
-        rootItems.push(menuItem);
-      }
-    } else {
-      rootItems.push(menuItem);
-    }
-  });
-
-  return sortMenuItems(rootItems);
-}
-
-function sortMenuItems(items: MenuItem[]): MenuItem[] {
-  return items
-    .sort((a, b) => a.Order - b.Order)
-    .map((item) => ({
-      ...item,
-      children: item.children ? sortMenuItems(item.children) : undefined,
-    }));
-}
+type NavData = {
+  pageData: { [key: number]: Page };
+  meta: {
+    pagination: {
+      page: number;
+      pageSize: number;
+      pageCount: number;
+      total: number;
+    };
+  };
+};
 
 export default function Nav() {
-  const data = useLoaderData() as any;
-  const { MenuItem } = data?.navData;
+  const data = useLoaderData() as NavData;
+  const { pageData } = data;
 
-  const navigation = assembleMenuItems(MenuItem);
+  const isPageValid = (page: Page): page is Page => 
+    page && typeof page === "object" && "Slug" in page && "Title" in page;
+
+  const rootPages: Page[] = Object.values(pageData).filter(
+    (page) => isPageValid(page) && !page.Parent
+  );
+
+  rootPages.forEach((rootPage) => {
+    rootPage.Children = Object.values(pageData).filter(
+      (page) => isPageValid(page) && page.Parent && page.Parent.Slug === rootPage.Slug
+    );
+  });
+
   return (
-    <NavigationMenu className="bg-red-800 text-white">
+    <NavigationMenu className="bg-red-800 text-white p-0">
       <NavigationMenuList className="w-screen">
-        {navigation.map((item: MenuItem) =>
-          item.children!.length > 0 ? (
-            <NavigationMenuItem className="relative" key={item.id}>
-              <NavigationMenuTrigger className="">
-                {item.Label}
-              </NavigationMenuTrigger>
+        <NavigationMenuItem>
+          <NavigationMenuLink asChild className={navigationMenuTriggerStyle()}>
+            <Link to="/">Home</Link>
+          </NavigationMenuLink>
+        </NavigationMenuItem>
+
+        {rootPages.map((page) =>
+          page.Children && page.Children.length > 0 ? (
+            <NavigationMenuItem className="relative" key={page.Slug}>
+              <NavigationMenuTrigger>{page.Title}</NavigationMenuTrigger>
               <NavigationMenuContent className="mt-[-10px]">
-                <ul className="">
-                  {item.children!.map((item: MenuItem) => (
-                    <Button key={item.id}>{item.Label}</Button>
+                <ul>
+                  {page.Children.map((child) => (
+                    <Button key={child.Slug}>
+                      <Link to={`/${child.Slug}`}>{child.Title}</Link>
+                    </Button>
                   ))}
                 </ul>
               </NavigationMenuContent>
             </NavigationMenuItem>
           ) : (
-            <NavigationMenuItem key={item.id}>
-              <NavigationMenuLink
-                asChild
-                className={navigationMenuTriggerStyle()}
-              >
-                <Link to={item.URL}>{item.Label}</Link>
+            <NavigationMenuItem key={page.Slug}>
+              <NavigationMenuLink asChild className={navigationMenuTriggerStyle()}>
+                <Link to={`/${page.Slug}`}>{page.Title}</Link>
               </NavigationMenuLink>
             </NavigationMenuItem>
           )

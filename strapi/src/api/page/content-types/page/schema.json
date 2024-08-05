@@ -25,17 +25,17 @@
       "targetField": "Title",
       "required": true
     },
-    "parent": {
-      "type": "relation",
-      "relation": "manyToOne",
-      "target": "api::page.page",
-      "inversedBy": "pages"
-    },
-    "pages": {
+    "Children": {
       "type": "relation",
       "relation": "oneToMany",
       "target": "api::page.page",
-      "mappedBy": "parent"
+      "mappedBy": "Parent"
+    },
+    "Parent": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::page.page",
+      "inversedBy": "Children"
     }
   }
 }

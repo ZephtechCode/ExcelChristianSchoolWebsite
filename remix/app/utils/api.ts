@@ -34,7 +34,7 @@ export const getContactData = async () => {
 
 export const getPages = async () => {
   try {
-    const response = await fetch(`${process.env.STRAPI_URL}/api/pages`, {
+    const response = await fetch(`${process.env.STRAPI_URL}/api/pages?populate=*`, {
       headers: {
         Authorization: `Bearer ${process.env.STRAPI_API_KEY}`,
       },

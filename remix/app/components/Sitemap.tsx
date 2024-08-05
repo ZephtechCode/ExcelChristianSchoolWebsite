@@ -4,52 +4,53 @@ import { useLoaderData } from "@remix-run/react";
 type Page = {
   Slug: string;
   Title: string;
+  Parent?: Page | null;
+  Children?: Page[];
 };
 
 type SitemapData = {
   pageData: {
-    [key: number]: {
-      Slug: string;
-      Title: string;
-    };
-    meta: {
-      pagination: {
-        page: number;
-        pageSize: number;
-        pageCount: number;
-        total: number;
-      };
+    [key: number]: Page;
+  };
+  meta: {
+    pagination: {
+      page: number;
+      pageSize: number;
+      pageCount: number;
+      total: number;
     };
   };
 };
 
 export default function Sitemap() {
-  const data = useLoaderData() as SitemapData;
+  const { pageData } = useLoaderData<SitemapData>();
+  console.log(pageData);
 
-  const { pageData } = data;
-
+  // Enhanced filtering to ensure only valid pages are included
   const Pages: Page[] = Object.values(pageData).filter(
-    (page) => typeof page === "object" && "Slug" in page
+    (page) => page && typeof page === "object" && !page.Parent && "Slug" in page && "Title" in page
   );
+
+  // Log any pages that were excluded for debugging purposes
+  const invalidPages = Object.values(pageData).filter(
+    (page) => !page || typeof page !== "object" || !("Slug" in page) || !("Title" in page)
+  );
+  console.log("Invalid pages excluded:", invalidPages);
 
   return (
     <div className="bg-red-800 text-white pt-4">
       <div className="container mx-auto px-4">
         <Card className="bg-red-800 text-white border-none">
           <CardContent>
-            {Pages && Pages.length > 0 ? (
-              <ul className="flex justify-around">
-                {Pages.map((page, index) => (
-                  <li key={index}>
-                    <a href={`/${page.Slug}`} className="hover:underline">
-                      {page.Title}
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            ) : (
-              <p>No pages available.</p>
-            )}
+            <ul className="flex justify-around ">
+              {Pages.map((page, index) => (
+                <li key={index}>
+                  <a href={`/${page.Slug}`} className="hover:underline">
+                    {page.Title}
+                  </a>
+                </li>
+              ))}
+            </ul>
           </CardContent>
         </Card>
       </div>

@@ -872,8 +872,12 @@ export interface ApiPagePage extends Schema.CollectionType {
     Content: Attribute.Blocks & Attribute.Required;
     Title: Attribute.String & Attribute.Required;
     Slug: Attribute.UID<'api::page.page', 'Title'> & Attribute.Required;
-    parent: Attribute.Relation<'api::page.page', 'manyToOne', 'api::page.page'>;
-    pages: Attribute.Relation<'api::page.page', 'oneToMany', 'api::page.page'>;
+    Children: Attribute.Relation<
+      'api::page.page',
+      'oneToMany',
+      'api::page.page'
+    >;
+    Parent: Attribute.Relation<'api::page.page', 'manyToOne', 'api::page.page'>;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
