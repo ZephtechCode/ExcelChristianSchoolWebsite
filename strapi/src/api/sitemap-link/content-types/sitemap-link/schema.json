@@ -1,0 +1,28 @@
+{
+  "kind": "singleType",
+  "collectionName": "sitemap_links",
+  "info": {
+    "singularName": "sitemap-link",
+    "pluralName": "sitemap-links",
+    "displayName": "SitemapLinks",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {
+    "i18n": {
+      "localized": true
+    }
+  },
+  "attributes": {
+    "links": {
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      },
+      "type": "json"
+    }
+  }
+}
