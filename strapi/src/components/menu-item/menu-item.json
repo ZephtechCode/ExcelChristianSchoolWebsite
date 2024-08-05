@@ -10,7 +10,8 @@
       "type": "string"
     },
     "Label": {
-      "type": "string"
+      "type": "string",
+      "unique": true
     },
     "External": {
       "type": "boolean"

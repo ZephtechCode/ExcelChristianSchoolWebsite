@@ -9,16 +9,21 @@ import {
 import "./globals.css";
 import Nav from "./components/Nav";
 import Hero from "./components/Hero";
-import { getNavData, getContactData } from "./utils/api";
+import { getContactData, getNavData, getPages} from "./utils/api";
+import Footer from "./components/Footer";
+import Sitemap from "./components/Sitemap";
 
 export async function loader() {
-  let navData = await getNavData();
-  let contactInfo = await getContactData();
-  return json({
-    navData,
-    contactInfo,
-  });
+    let navData = await getNavData();
+    let contactInfo = await getContactData();
+    let pageData = await getPages();
+    return json({
+      navData,
+      contactInfo,
+      pageData,
+    });
 }
+
 export function Layout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
@@ -32,6 +37,8 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <Hero />
         <Nav />
         {children}
+        <Footer/>
+        <Sitemap />
         <ScrollRestoration />
         <Scripts />
       </body>

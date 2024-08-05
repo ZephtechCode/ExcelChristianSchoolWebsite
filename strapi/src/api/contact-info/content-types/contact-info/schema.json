@@ -32,6 +32,9 @@
     },
     "Copyright": {
       "type": "string"
+    },
+    "Name": {
+      "type": "string"
     }
   }
 }

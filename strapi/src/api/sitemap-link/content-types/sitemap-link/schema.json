@@ -4,8 +4,7 @@
   "info": {
     "singularName": "sitemap-link",
     "pluralName": "sitemap-links",
-    "displayName": "SitemapLinks",
-    "description": ""
+    "displayName": "SitemapLinks"
   },
   "options": {
     "draftAndPublish": true
@@ -16,7 +15,7 @@
     }
   },
   "attributes": {
-    "links": {
+    "Links": {
       "pluginOptions": {
         "i18n": {
           "localized": true

@@ -8,7 +8,7 @@ export interface MenuItemMenuItem extends Schema.Component {
   };
   attributes: {
     URL: Attribute.String;
-    Label: Attribute.String;
+    Label: Attribute.String & Attribute.Unique;
     External: Attribute.Boolean;
     Order: Attribute.Integer;
     Parent: Attribute.String;

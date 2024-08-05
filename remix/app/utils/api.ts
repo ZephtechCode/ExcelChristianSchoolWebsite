@@ -1,37 +1,51 @@
 export const getNavData = async () => {
-    try {
-        const response = await fetch(
-            `${process.env.STRAPI_URL}/api/navigation?populate=*`,
-            {
-              headers: {
-                Authorization: `Bearer ${process.env.STRAPI_API_KEY}`,
-              },
-            }
-          );
-            const navData = await response.json();
-          return flattenAttributes(navData);
-        } catch (error) {
-            console.error(error);
-        }
-}
+  try {
+    const response = await fetch(
+      `${process.env.STRAPI_URL}/api/navigation?populate=*`,
+      {
+        headers: {
+          Authorization: `Bearer ${process.env.STRAPI_API_KEY}`,
+        },
+      }
+    );
+    const navData = await response.json();
+    return flattenAttributes(navData);
+  } catch (error) {
+    console.error(error);
+  }
+};
 
 export const getContactData = async () => {
-    try {
+  try {
     const response = await fetch(
-        `${process.env.STRAPI_URL}/api/contact-info?populate=*`,
-        {
-          headers: {
-            Authorization: `Bearer ${process.env.STRAPI_API_KEY}`,
-          },
-        }
-      );
-        const contactData = await response.json();
-      return flattenAttributes(contactData);
-    }
-    catch (error) {
-        console.error(error);
-    }
-}
+      `${process.env.STRAPI_URL}/api/contact-info?populate=*`,
+      {
+        headers: {
+          Authorization: `Bearer ${process.env.STRAPI_API_KEY}`,
+        },
+      }
+    );
+    const contactData = await response.json();
+    return flattenAttributes(contactData);
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const getPages = async () => {
+  try {
+    const response = await fetch(`${process.env.STRAPI_URL}/api/pages`, {
+      headers: {
+        Authorization: `Bearer ${process.env.STRAPI_API_KEY}`,
+      },
+    });
+
+    const pages = await response.json();
+    return flattenAttributes(pages);
+  } catch (error) {
+    console.error(error);
+  }
+};
 
 export function flattenAttributes(data: any): any {
   // Base case for recursion

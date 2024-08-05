@@ -807,6 +807,7 @@ export interface ApiContactInfoContactInfo extends Schema.SingleType {
     MapLink: Attribute.String;
     Accreditations: Attribute.JSON;
     Copyright: Attribute.String;
+    Name: Attribute.String;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
@@ -862,14 +863,17 @@ export interface ApiPagePage extends Schema.CollectionType {
     singularName: 'page';
     pluralName: 'pages';
     displayName: 'Page';
+    description: '';
   };
   options: {
     draftAndPublish: true;
   };
   attributes: {
-    Content: Attribute.Blocks;
-    Title: Attribute.String;
-    slug: Attribute.String;
+    Content: Attribute.Blocks & Attribute.Required;
+    Title: Attribute.String & Attribute.Required;
+    Slug: Attribute.UID<'api::page.page', 'Title'> & Attribute.Required;
+    parent: Attribute.Relation<'api::page.page', 'manyToOne', 'api::page.page'>;
+    pages: Attribute.Relation<'api::page.page', 'oneToMany', 'api::page.page'>;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
@@ -886,7 +890,6 @@ export interface ApiSitemapLinkSitemapLink extends Schema.SingleType {
     singularName: 'sitemap-link';
     pluralName: 'sitemap-links';
     displayName: 'SitemapLinks';
-    description: '';
   };
   options: {
     draftAndPublish: true;
@@ -897,7 +900,7 @@ export interface ApiSitemapLinkSitemapLink extends Schema.SingleType {
     };
   };
   attributes: {
-    links: Attribute.JSON &
+    Links: Attribute.JSON &
       Attribute.SetPluginOptions<{
         i18n: {
           localized: true;
