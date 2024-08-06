@@ -807,6 +807,7 @@ export interface ApiContactInfoContactInfo extends Schema.SingleType {
     MapLink: Attribute.String;
     Accreditations: Attribute.JSON;
     Copyright: Attribute.String;
+    Name: Attribute.String;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
@@ -825,67 +826,12 @@ export interface ApiContactInfoContactInfo extends Schema.SingleType {
   };
 }
 
-export interface ApiNavigationNavigation extends Schema.SingleType {
-  collectionName: 'navigations';
+export interface ApiFacultyFaculty extends Schema.CollectionType {
+  collectionName: 'faculties';
   info: {
-    singularName: 'navigation';
-    pluralName: 'navigations';
-    displayName: 'Navigation';
-    description: '';
-  };
-  options: {
-    draftAndPublish: true;
-  };
-  attributes: {
-    MenuItem: Attribute.Component<'menu-item.menu-item', true>;
-    createdAt: Attribute.DateTime;
-    updatedAt: Attribute.DateTime;
-    publishedAt: Attribute.DateTime;
-    createdBy: Attribute.Relation<
-      'api::navigation.navigation',
-      'oneToOne',
-      'admin::user'
-    > &
-      Attribute.Private;
-    updatedBy: Attribute.Relation<
-      'api::navigation.navigation',
-      'oneToOne',
-      'admin::user'
-    > &
-      Attribute.Private;
-  };
-}
-
-export interface ApiPagePage extends Schema.CollectionType {
-  collectionName: 'pages';
-  info: {
-    singularName: 'page';
-    pluralName: 'pages';
-    displayName: 'Page';
-  };
-  options: {
-    draftAndPublish: true;
-  };
-  attributes: {
-    Content: Attribute.Blocks;
-    Title: Attribute.String;
-    slug: Attribute.String;
-    createdAt: Attribute.DateTime;
-    updatedAt: Attribute.DateTime;
-    publishedAt: Attribute.DateTime;
-    createdBy: Attribute.Relation<'api::page.page', 'oneToOne', 'admin::user'> &
-      Attribute.Private;
-    updatedBy: Attribute.Relation<'api::page.page', 'oneToOne', 'admin::user'> &
-      Attribute.Private;
-  };
-}
-
-export interface ApiSitemapLinkSitemapLink extends Schema.SingleType {
-  collectionName: 'sitemap_links';
-  info: {
-    singularName: 'sitemap-link';
-    pluralName: 'sitemap-links';
-    displayName: 'SitemapLinks';
+    singularName: 'faculty';
+    pluralName: 'faculties';
+    displayName: 'Faculty';
     description: '';
   };
   options: {
@@ -897,7 +843,37 @@ export interface ApiSitemapLinkSitemapLink extends Schema.SingleType {
     };
   };
   attributes: {
-    links: Attribute.JSON &
+    Position: Attribute.String &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    Education: Attribute.RichText &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    Licenses: Attribute.RichText &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    Description: Attribute.Text &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    Image: Attribute.Media<'images'> &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    Name: Attribute.UID &
       Attribute.SetPluginOptions<{
         i18n: {
           localized: true;
@@ -907,23 +883,56 @@ export interface ApiSitemapLinkSitemapLink extends Schema.SingleType {
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
     createdBy: Attribute.Relation<
-      'api::sitemap-link.sitemap-link',
+      'api::faculty.faculty',
       'oneToOne',
       'admin::user'
     > &
       Attribute.Private;
     updatedBy: Attribute.Relation<
-      'api::sitemap-link.sitemap-link',
+      'api::faculty.faculty',
       'oneToOne',
       'admin::user'
     > &
       Attribute.Private;
     localizations: Attribute.Relation<
-      'api::sitemap-link.sitemap-link',
+      'api::faculty.faculty',
       'oneToMany',
-      'api::sitemap-link.sitemap-link'
+      'api::faculty.faculty'
     >;
     locale: Attribute.String;
+  };
+}
+
+export interface ApiPagePage extends Schema.CollectionType {
+  collectionName: 'pages';
+  info: {
+    singularName: 'page';
+    pluralName: 'pages';
+    displayName: 'Page';
+    description: '';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    Content: Attribute.Blocks;
+    Title: Attribute.String & Attribute.Required;
+    Slug: Attribute.UID<'api::page.page', 'Title'> & Attribute.Required;
+    Children: Attribute.Relation<
+      'api::page.page',
+      'oneToMany',
+      'api::page.page'
+    >;
+    Parent: Attribute.Relation<'api::page.page', 'manyToOne', 'api::page.page'>;
+    Template: Attribute.Enumeration<['Enumerative Cards']>;
+    DataReference: Attribute.Enumeration<['Faculty']>;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<'api::page.page', 'oneToOne', 'admin::user'> &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<'api::page.page', 'oneToOne', 'admin::user'> &
+      Attribute.Private;
   };
 }
 
@@ -946,9 +955,8 @@ declare module '@strapi/types' {
       'plugin::users-permissions.role': PluginUsersPermissionsRole;
       'plugin::users-permissions.user': PluginUsersPermissionsUser;
       'api::contact-info.contact-info': ApiContactInfoContactInfo;
-      'api::navigation.navigation': ApiNavigationNavigation;
+      'api::faculty.faculty': ApiFacultyFaculty;
       'api::page.page': ApiPagePage;
-      'api::sitemap-link.sitemap-link': ApiSitemapLinkSitemapLink;
     }
   }
 }
