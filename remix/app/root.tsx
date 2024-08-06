@@ -9,22 +9,22 @@ import {
 import "./globals.css";
 import Nav from "./components/Nav";
 import Hero from "./components/Hero";
-import { getContactData, getNavData, getPages} from "./utils/api";
+import { getContactData,  getPages} from "./utils/api";
 import Footer from "./components/Footer";
 import Sitemap from "./components/Sitemap";
 
+
 export async function loader() {
-    let navData = await getNavData();
-    let contactInfo = await getContactData();
-    let pageData = await getPages();
-    return json({
-      navData,
-      contactInfo,
-      pageData,
-    });
+  const contactInfo = await getContactData();
+  const pageData = await getPages();
+
+  return json({
+    contactInfo,
+    pageData,
+  });
 }
 
-export function Layout({ children }: { children: React.ReactNode }) {
+export default function App() {
   return (
     <html lang="en">
       <head>
@@ -36,7 +36,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
       <body>
         <Hero />
         <Nav />
-        {children}
+        <Outlet />
         <Footer/>
         <Sitemap />
         <ScrollRestoration />
@@ -46,6 +46,6 @@ export function Layout({ children }: { children: React.ReactNode }) {
   );
 }
 
-export default function App() {
-  return <Outlet />;
-}
+// export default function App() {
+//   return <Outlet />;
+// }

@@ -1,86 +1,68 @@
-export const getNavData = async () => {
+const fetchData = async (url: string) => {
   try {
-    const response = await fetch(
-      `${process.env.STRAPI_URL}/api/navigation?populate=*`,
-      {
-        headers: {
-          Authorization: `Bearer ${process.env.STRAPI_API_KEY}`,
-        },
-      }
-    );
-    const navData = await response.json();
-    return flattenAttributes(navData);
-  } catch (error) {
-    console.error(error);
-  }
-};
-
-export const getContactData = async () => {
-  try {
-    const response = await fetch(
-      `${process.env.STRAPI_URL}/api/contact-info?populate=*`,
-      {
-        headers: {
-          Authorization: `Bearer ${process.env.STRAPI_API_KEY}`,
-        },
-      }
-    );
-    const contactData = await response.json();
-    return flattenAttributes(contactData);
-  } catch (error) {
-    console.error(error);
-  }
-};
-
-export const getPages = async () => {
-  try {
-    const response = await fetch(`${process.env.STRAPI_URL}/api/pages?populate=*`, {
+    const response = await fetch(url, {
       headers: {
         Authorization: `Bearer ${process.env.STRAPI_API_KEY}`,
       },
     });
-
-    const pages = await response.json();
-    return flattenAttributes(pages);
+    return await response.json();
   } catch (error) {
     console.error(error);
+    return null;
   }
 };
 
+export const getNavData = async () => {
+  const navData = await fetchData(`${process.env.STRAPI_URL}/api/navigation?populate=*`);
+  return flattenAttributes(navData);
+};
+
+export const getContactData = async () => {
+  const contactData = await fetchData(`${process.env.STRAPI_URL}/api/contact-info?populate=*`);
+  return flattenAttributes(contactData);
+};
+
+export const getPages = async () => {
+  const pages = await fetchData(`${process.env.STRAPI_URL}/api/pages?populate=*`);
+  return flattenAttributes(pages);
+};
+
+export const getFacultyData = async () => {
+  const facultyData = await fetchData(`${process.env.STRAPI_URL}/api/faculties?populate=*`);
+  return facultyData.data.map((item: any) => flattenAttributes(item));
+};
+
+export const getPageBySlug = async (slug: string) => {
+  const response = await fetchData(`${process.env.STRAPI_URL}/api/pages?filters[slug][$eq]=${slug}`);
+  return response?.data.length ? response.data[0] : null;
+};
+
 export function flattenAttributes(data: any): any {
-  // Base case for recursion
   if (!data) return null;
 
-  // Handling array data
   if (Array.isArray(data)) {
     return data.map(flattenAttributes);
   }
 
   let flattened: { [key: string]: any } = {};
 
-  // Handling attributes
   if (data.attributes) {
     for (let key in data.attributes) {
-      if (
-        typeof data.attributes[key] === "object" &&
-        data.attributes[key] !== null &&
-        "data" in data.attributes[key]
-      ) {
-        flattened[key] = flattenAttributes(data.attributes[key].data);
+      const attribute = data.attributes[key];
+      if (attribute && typeof attribute === "object" && "data" in attribute) {
+        flattened[key] = flattenAttributes(attribute.data);
       } else {
-        flattened[key] = data.attributes[key];
+        flattened[key] = attribute;
       }
     }
   }
 
-  // Copying non-attributes and non-data properties
   for (let key in data) {
     if (key !== "attributes" && key !== "data") {
       flattened[key] = data[key];
     }
   }
 
-  // Handling nested data
   if (data.data) {
     flattened = { ...flattened, ...flattenAttributes(data.data) };
   }

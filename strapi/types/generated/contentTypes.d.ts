@@ -826,34 +826,80 @@ export interface ApiContactInfoContactInfo extends Schema.SingleType {
   };
 }
 
-export interface ApiNavigationNavigation extends Schema.SingleType {
-  collectionName: 'navigations';
+export interface ApiFacultyFaculty extends Schema.CollectionType {
+  collectionName: 'faculties';
   info: {
-    singularName: 'navigation';
-    pluralName: 'navigations';
-    displayName: 'Navigation';
+    singularName: 'faculty';
+    pluralName: 'faculties';
+    displayName: 'Faculty';
     description: '';
   };
   options: {
     draftAndPublish: true;
   };
+  pluginOptions: {
+    i18n: {
+      localized: true;
+    };
+  };
   attributes: {
-    MenuItem: Attribute.Component<'menu-item.menu-item', true>;
+    Position: Attribute.String &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    Education: Attribute.RichText &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    Licenses: Attribute.RichText &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    Description: Attribute.Text &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    Image: Attribute.Media<'images'> &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    Name: Attribute.UID &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
     createdBy: Attribute.Relation<
-      'api::navigation.navigation',
+      'api::faculty.faculty',
       'oneToOne',
       'admin::user'
     > &
       Attribute.Private;
     updatedBy: Attribute.Relation<
-      'api::navigation.navigation',
+      'api::faculty.faculty',
       'oneToOne',
       'admin::user'
     > &
       Attribute.Private;
+    localizations: Attribute.Relation<
+      'api::faculty.faculty',
+      'oneToMany',
+      'api::faculty.faculty'
+    >;
+    locale: Attribute.String;
   };
 }
 
@@ -869,7 +915,7 @@ export interface ApiPagePage extends Schema.CollectionType {
     draftAndPublish: true;
   };
   attributes: {
-    Content: Attribute.Blocks & Attribute.Required;
+    Content: Attribute.Blocks;
     Title: Attribute.String & Attribute.Required;
     Slug: Attribute.UID<'api::page.page', 'Title'> & Attribute.Required;
     Children: Attribute.Relation<
@@ -878,6 +924,8 @@ export interface ApiPagePage extends Schema.CollectionType {
       'api::page.page'
     >;
     Parent: Attribute.Relation<'api::page.page', 'manyToOne', 'api::page.page'>;
+    Template: Attribute.Enumeration<['Enumerative Cards']>;
+    DataReference: Attribute.Enumeration<['Faculty']>;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
@@ -885,52 +933,6 @@ export interface ApiPagePage extends Schema.CollectionType {
       Attribute.Private;
     updatedBy: Attribute.Relation<'api::page.page', 'oneToOne', 'admin::user'> &
       Attribute.Private;
-  };
-}
-
-export interface ApiSitemapLinkSitemapLink extends Schema.SingleType {
-  collectionName: 'sitemap_links';
-  info: {
-    singularName: 'sitemap-link';
-    pluralName: 'sitemap-links';
-    displayName: 'SitemapLinks';
-  };
-  options: {
-    draftAndPublish: true;
-  };
-  pluginOptions: {
-    i18n: {
-      localized: true;
-    };
-  };
-  attributes: {
-    Links: Attribute.JSON &
-      Attribute.SetPluginOptions<{
-        i18n: {
-          localized: true;
-        };
-      }>;
-    createdAt: Attribute.DateTime;
-    updatedAt: Attribute.DateTime;
-    publishedAt: Attribute.DateTime;
-    createdBy: Attribute.Relation<
-      'api::sitemap-link.sitemap-link',
-      'oneToOne',
-      'admin::user'
-    > &
-      Attribute.Private;
-    updatedBy: Attribute.Relation<
-      'api::sitemap-link.sitemap-link',
-      'oneToOne',
-      'admin::user'
-    > &
-      Attribute.Private;
-    localizations: Attribute.Relation<
-      'api::sitemap-link.sitemap-link',
-      'oneToMany',
-      'api::sitemap-link.sitemap-link'
-    >;
-    locale: Attribute.String;
   };
 }
 
@@ -953,9 +955,8 @@ declare module '@strapi/types' {
       'plugin::users-permissions.role': PluginUsersPermissionsRole;
       'plugin::users-permissions.user': PluginUsersPermissionsUser;
       'api::contact-info.contact-info': ApiContactInfoContactInfo;
-      'api::navigation.navigation': ApiNavigationNavigation;
+      'api::faculty.faculty': ApiFacultyFaculty;
       'api::page.page': ApiPagePage;
-      'api::sitemap-link.sitemap-link': ApiSitemapLinkSitemapLink;
     }
   }
 }

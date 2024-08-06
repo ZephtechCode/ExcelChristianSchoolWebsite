@@ -1,9 +1,9 @@
 'use strict';
 
 /**
- * navigation controller
+ * faculty controller
  */
 
 const { createCoreController } = require('@strapi/strapi').factories;
 
-module.exports = createCoreController('api::navigation.navigation');
+module.exports = createCoreController('api::faculty.faculty');
