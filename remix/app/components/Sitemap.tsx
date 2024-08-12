@@ -24,18 +24,25 @@ type SitemapData = {
 
 export default function Sitemap() {
   const { pageData } = useLoaderData<SitemapData>();
-  console.log(pageData);
 
   // Enhanced filtering to ensure only valid pages are included
   const Pages: Page[] = Object.values(pageData).filter(
-    (page) => page && typeof page === "object" && !page.Parent && "Slug" in page && "Title" in page
+    (page) =>
+      page &&
+      typeof page === "object" &&
+      !page.Parent &&
+      "Slug" in page &&
+      "Title" in page
   );
 
   // Log any pages that were excluded for debugging purposes
   const invalidPages = Object.values(pageData).filter(
-    (page) => !page || typeof page !== "object" || !("Slug" in page) || !("Title" in page)
+    (page) =>
+      !page ||
+      typeof page !== "object" ||
+      !("Slug" in page) ||
+      !("Title" in page)
   );
-  console.log("Invalid pages excluded:", invalidPages);
 
   return (
     <div className="bg-red-800 text-white pt-4">

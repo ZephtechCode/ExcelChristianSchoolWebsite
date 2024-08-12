@@ -12,10 +12,6 @@
   },
   "pluginOptions": {},
   "attributes": {
-    "Content": {
-      "type": "blocks",
-      "required": false
-    },
     "Title": {
       "type": "string",
       "required": true
@@ -48,6 +44,15 @@
       "type": "enumeration",
       "enum": [
         "Faculty"
+      ]
+    },
+    "Content": {
+      "type": "dynamiczone",
+      "components": [
+        "why.card",
+        "why.grid",
+        "macro.admin-staff-list",
+        "macro.rich-text"
       ]
     }
   }

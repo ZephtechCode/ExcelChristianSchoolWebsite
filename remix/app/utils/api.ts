@@ -1,8 +1,9 @@
+const strapiUrl = "http://localhost:1337";
 const fetchData = async (url: string) => {
   try {
     const response = await fetch(url, {
       headers: {
-        Authorization: `Bearer ${process.env.STRAPI_API_KEY}`,
+        Authorization: `Bearer ${process?.env?.STRAPI_API_KEY}`,
       },
     });
     return await response.json();
@@ -13,27 +14,38 @@ const fetchData = async (url: string) => {
 };
 
 export const getNavData = async () => {
-  const navData = await fetchData(`${process.env.STRAPI_URL}/api/navigation?populate=*`);
+  const navData = await fetchData(
+    `${process.env.STRAPI_URL}/api/navigation?populate=*`
+  );
   return flattenAttributes(navData);
 };
 
 export const getContactData = async () => {
-  const contactData = await fetchData(`${process.env.STRAPI_URL}/api/contact-info?populate=*`);
+  const contactData = await fetchData(
+    `${process.env.STRAPI_URL}/api/contact-info?populate=*`
+  );
   return flattenAttributes(contactData);
 };
 
 export const getPages = async () => {
-  const pages = await fetchData(`${process.env.STRAPI_URL}/api/pages?populate=*`);
+  const pages = await fetchData(
+    `${process.env.STRAPI_URL}/api/pages?populate=*`
+  );
   return flattenAttributes(pages);
 };
 
 export const getFacultyData = async () => {
-  const facultyData = await fetchData(`${process.env.STRAPI_URL}/api/faculties?populate=*`);
+  const facultyData = await fetchData(`${strapiUrl}/api/faculties?populate=*`);
   return facultyData.data.map((item: any) => flattenAttributes(item));
 };
 
 export const getPageBySlug = async (slug: string) => {
-  const response = await fetchData(`${process.env.STRAPI_URL}/api/pages?filters[slug][$eq]=${slug}`);
+  const slugParts = slug.split("/");
+  const response = await fetchData(
+    `${process.env.STRAPI_URL}/api/pages?filters[Slug][$eq]=${
+      slugParts[slugParts.length - 1]
+    }&populate=*`
+  );
   return response?.data.length ? response.data[0] : null;
 };
 

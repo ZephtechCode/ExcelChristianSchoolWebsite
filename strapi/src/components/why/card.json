@@ -1,0 +1,13 @@
+{
+  "collectionName": "components_why_cards",
+  "info": {
+    "displayName": "Card",
+    "icon": "grid"
+  },
+  "options": {},
+  "attributes": {
+    "Title": {
+      "type": "string"
+    }
+  }
+}

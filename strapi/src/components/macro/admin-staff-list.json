@@ -1,0 +1,15 @@
+{
+  "collectionName": "components_macro_admin_staff_lists",
+  "info": {
+    "displayName": "AdminStaffList",
+    "icon": "bulletList"
+  },
+  "options": {},
+  "attributes": {
+    "faculties": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::faculty.faculty"
+    }
+  }
+}

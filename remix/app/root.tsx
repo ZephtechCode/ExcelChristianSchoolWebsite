@@ -9,10 +9,12 @@ import {
 import "./globals.css";
 import Nav from "./components/Nav";
 import Hero from "./components/Hero";
-import { getContactData,  getPages} from "./utils/api";
+import { getContactData, getPages } from "./utils/api";
 import Footer from "./components/Footer";
 import Sitemap from "./components/Sitemap";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
+const queryClient = new QueryClient();
 
 export async function loader() {
   const contactInfo = await getContactData();
@@ -34,13 +36,15 @@ export default function App() {
         <Links />
       </head>
       <body>
-        <Hero />
-        <Nav />
-        <Outlet />
-        <Footer/>
-        <Sitemap />
-        <ScrollRestoration />
-        <Scripts />
+        <QueryClientProvider client={queryClient}>
+          <Hero />
+          <Nav />
+          <Outlet />
+          <Footer />
+          <Sitemap />
+          <ScrollRestoration />
+          <Scripts />
+        </QueryClientProvider>
       </body>
     </html>
   );

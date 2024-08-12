@@ -1,0 +1,15 @@
+{
+  "collectionName": "components_why_grids",
+  "info": {
+    "displayName": "Grid",
+    "icon": "grid"
+  },
+  "options": {},
+  "attributes": {
+    "Card": {
+      "type": "component",
+      "repeatable": true,
+      "component": "why.card"
+    }
+  }
+}

@@ -915,7 +915,6 @@ export interface ApiPagePage extends Schema.CollectionType {
     draftAndPublish: true;
   };
   attributes: {
-    Content: Attribute.Blocks;
     Title: Attribute.String & Attribute.Required;
     Slug: Attribute.UID<'api::page.page', 'Title'> & Attribute.Required;
     Children: Attribute.Relation<
@@ -926,6 +925,9 @@ export interface ApiPagePage extends Schema.CollectionType {
     Parent: Attribute.Relation<'api::page.page', 'manyToOne', 'api::page.page'>;
     Template: Attribute.Enumeration<['Enumerative Cards']>;
     DataReference: Attribute.Enumeration<['Faculty']>;
+    Content: Attribute.DynamicZone<
+      ['why.card', 'why.grid', 'macro.admin-staff-list', 'macro.rich-text']
+    >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;

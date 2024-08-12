@@ -33,7 +33,7 @@ export default function Nav() {
   const data = useLoaderData() as NavData;
   const { pageData } = data;
 
-  const isPageValid = (page: Page): page is Page => 
+  const isPageValid = (page: Page): page is Page =>
     page && typeof page === "object" && "Slug" in page && "Title" in page;
 
   const rootPages: Page[] = Object.values(pageData).filter(
@@ -42,7 +42,8 @@ export default function Nav() {
 
   rootPages.forEach((rootPage) => {
     rootPage.Children = Object.values(pageData).filter(
-      (page) => isPageValid(page) && page.Parent && page.Parent.Slug === rootPage.Slug
+      (page) =>
+        isPageValid(page) && page.Parent && page.Parent.Slug === rootPage.Slug
     );
   });
 
@@ -63,7 +64,9 @@ export default function Nav() {
                 <ul>
                   {page.Children.map((child) => (
                     <Button key={child.Slug}>
-                      <Link to={`/${child.Slug}`}>{child.Title}</Link>
+                      <Link to={`/${page.Slug}/${child.Slug}`}>
+                        {child.Title}
+                      </Link>
                     </Button>
                   ))}
                 </ul>
@@ -71,7 +74,10 @@ export default function Nav() {
             </NavigationMenuItem>
           ) : (
             <NavigationMenuItem key={page.Slug}>
-              <NavigationMenuLink asChild className={navigationMenuTriggerStyle()}>
+              <NavigationMenuLink
+                asChild
+                className={navigationMenuTriggerStyle()}
+              >
                 <Link to={`/${page.Slug}`}>{page.Title}</Link>
               </NavigationMenuLink>
             </NavigationMenuItem>
