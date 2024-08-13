@@ -36,8 +36,6 @@
     "Content": {
       "type": "dynamiczone",
       "components": [
-        "why.card",
-        "why.grid",
         "macro-components.profile-list",
         "mini-components.button-framed",
         "macro-components.rich-text"

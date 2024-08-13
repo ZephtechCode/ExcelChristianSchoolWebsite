@@ -1,27 +1,5 @@
 import type { Schema, Attribute } from '@strapi/strapi';
 
-export interface WhyGrid extends Schema.Component {
-  collectionName: 'components_why_grids';
-  info: {
-    displayName: 'Grid';
-    icon: 'grid';
-  };
-  attributes: {
-    Card: Attribute.Component<'why.card', true>;
-  };
-}
-
-export interface WhyCard extends Schema.Component {
-  collectionName: 'components_why_cards';
-  info: {
-    displayName: 'Card';
-    icon: 'grid';
-  };
-  attributes: {
-    Title: Attribute.String;
-  };
-}
-
 export interface MiniComponentsButtonFramed extends Schema.Component {
   collectionName: 'components_mini_components_button_frameds';
   info: {
@@ -64,8 +42,6 @@ export interface MacroComponentsProfileList extends Schema.Component {
 declare module '@strapi/types' {
   export module Shared {
     export interface Components {
-      'why.grid': WhyGrid;
-      'why.card': WhyCard;
       'mini-components.button-framed': MiniComponentsButtonFramed;
       'macro-components.rich-text': MacroComponentsRichText;
       'macro-components.profile-list': MacroComponentsProfileList;
