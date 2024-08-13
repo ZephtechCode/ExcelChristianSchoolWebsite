@@ -1,7 +1,7 @@
 import { json, useLoaderData } from "@remix-run/react";
 import { getPageBySlug } from "~/utils/api";
 import { HeaderBreadcrumb } from "~/components/HeaderBreadcrumb";
-import componentMap from '~/components/ComponentMap';
+import componentMap from '~/components/componentMap';
 
 export interface Page {
   id: number;
@@ -28,7 +28,7 @@ export async function loader({ params }: any) {
   const page = {
     id: pageData.id,
     Title: pageData.Title ?? "Untitled Page",
-    Content: pageData.Content.map((block) => {
+    Content: pageData.Content.map((block : any) => {
       switch (block.__component) {
         case 'macro-components.profile-list': {
           const profiles = block.profiles?.data?.map((profile: any) => ({
