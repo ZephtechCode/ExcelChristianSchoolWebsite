@@ -44,9 +44,17 @@ export const getPageBySlug = async (slug: string) => {
   const response = await fetchData(
     `${process.env.STRAPI_URL}/api/pages?filters[Slug][$eq]=${
       slugParts[slugParts.length - 1]
-    }&populate=*`
+    }&populate[Content][populate]=profiles`
   );
-  return response?.data.length ? response.data[0] : null;
+
+  if (!response || !response.data || !Array.isArray(response.data)) {
+    console.error("No data returned for the given slug:", slug);
+    return null;
+  }
+
+  console.log("Fetched Page Data with Profiles:", response.data); // Check if profiles are populated
+
+  return response.data.length ? flattenAttributes(response.data[0]) : null;
 };
 
 export function flattenAttributes(data: any): any {
