@@ -1,19 +1,28 @@
-import { FC, useEffect } from "react";
+import { FC } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useLoaderData } from "@remix-run/react";
 
-type FooterData = {
+// Define types for the FooterData and its properties
+interface Accreditation {
+  ImgSrc: string;
+  Alt: string;
+  Link: string;
+}
+
+interface FooterData {
   Name: string;
   Address: string;
   Phone: string;
   Fax: string;
   SupportEmail: string;
   MapLink: string;
-  Accreditations: { ImgSrc: string; Alt: string; Link: string }[];
-};
+  Accreditations: Accreditation[];
+}
 
-export default function Footer() {
-  const data = useLoaderData() as { contactInfo: FooterData };
+// Footer component definition
+const Footer: FC = () => {
+  const { contactInfo } = useLoaderData<{ contactInfo: FooterData }>();
+
   const {
     Name,
     Address,
@@ -22,32 +31,24 @@ export default function Footer() {
     SupportEmail,
     Accreditations,
     MapLink,
-  } = data.contactInfo || {};
+  } = contactInfo;
 
-  // Debugging: Log the data to see what's being passed
-  useEffect(() => {
-    console.log('Contact Info:', data.contactInfo);
-    console.log('Accreditations:', Accreditations);
-  }, [data.contactInfo, Accreditations]);
-
-  // Handle different types for Accreditations
-  const renderAccreditations = () => {
-    if (Array.isArray(Accreditations)) {
-      return Accreditations.map((acc, index) => (
-        <a href={acc.Link} key={index}>
+  // Render accreditations list or a fallback message
+  const renderAccreditations = () => (
+    Array.isArray(Accreditations) && Accreditations.length > 0 ? (
+      Accreditations.map(({ ImgSrc, Alt, Link }, index) => (
+        <a href={Link} key={index}>
           <img
-            key={index}
-            src={acc.ImgSrc}
-            alt={acc.Alt}
+            src={ImgSrc}
+            alt={Alt}
             className="h-10"
           />
         </a>
-      ));
-    } else {
-      // Handle case where Accreditations is not an array
-      return <p>No accreditations available</p>;
-    }
-  };
+      ))
+    ) : (
+      <p>No accreditations available</p>
+    )
+  );
 
   return (
     <footer className="bg-slate-700 text-white py-8">
@@ -69,7 +70,7 @@ export default function Footer() {
             <CardTitle>Map</CardTitle>
           </CardHeader>
           <CardContent>
-            {MapLink && (
+            {MapLink ? (
               <iframe
                 src={MapLink}
                 width="300"
@@ -77,7 +78,10 @@ export default function Footer() {
                 style={{ border: 0 }}
                 allowFullScreen
                 loading="lazy"
+                title="Location Map"
               ></iframe>
+            ) : (
+              <p>No map available</p>
             )}
           </CardContent>
         </Card>
@@ -94,4 +98,6 @@ export default function Footer() {
       </div>
     </footer>
   );
-}
+};
+
+export default Footer;

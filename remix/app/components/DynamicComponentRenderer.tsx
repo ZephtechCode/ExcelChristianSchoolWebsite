@@ -14,8 +14,6 @@ export const DynamicComponentRenderer: React.FC<DynamicComponentRendererProps> =
     return null;
   }
 
-  console.log(`Rendering ${componentName} with props:`, props); // Log to ensure profiles are included
-
   // Pass the props, which now includes profiles, to the component
   return <Component {...props} />;
 };

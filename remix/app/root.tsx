@@ -17,9 +17,11 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 const queryClient = new QueryClient();
 
 export async function loader() {
-  const contactInfo = await getContactData();
-  const pageData = await getPages();
-  console.log("Contact Info:", contactInfo);
+  const [contactInfo, pageData] = await Promise.all([
+    getContactData(),
+    getPages(),
+  ]);
+
   return json({
     contactInfo,
     pageData,
@@ -39,7 +41,9 @@ export default function App() {
         <QueryClientProvider client={queryClient}>
           <Hero />
           <Nav />
-          <Outlet />
+          <main>
+            <Outlet />
+          </main>
           <Footer />
           <Sitemap />
           <ScrollRestoration />
@@ -49,7 +53,3 @@ export default function App() {
     </html>
   );
 }
-
-// export default function App() {
-//   return <Outlet />;
-// }

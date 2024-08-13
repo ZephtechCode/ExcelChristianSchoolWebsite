@@ -1,13 +1,14 @@
+import { FC } from 'react';
 import ProfileList from '~/components/macro/ProfileList';
 
-import { FC } from 'react';
-
+// Define the interface for the component map
 interface ComponentMap {
-  [key: string]: FC<any>; // This indicates that each component is a functional component that accepts any props
+  [key: string]: FC<any>; // Maps component names to their respective React functional components
 }
 
+// Create the component map
 const componentMap: ComponentMap = {
-  ProfileList: ProfileList,
+  ProfileList, // No need to repeat `ProfileList: ProfileList` in ES6
 };
 
 export default componentMap;

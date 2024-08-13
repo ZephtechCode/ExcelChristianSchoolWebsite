@@ -3,18 +3,22 @@ import { getPageBySlug } from "~/utils/api";
 import { HeaderBreadcrumb } from "~/components/HeaderBreadcrumb";
 import componentMap from '~/components/componentMap';
 
+// Define a generalized Page interface
 export interface Page {
   id: number;
   Title: string;
-  Content: {
-    id: number;
-    __component: string;
-    componentName: string;
-    profiles?: any[];
-    [key: string]: any;  // Allow for different data structures
-  }[];
+  Content: ContentBlock[];
 }
 
+// Define a ContentBlock interface to allow for different data structures
+export interface ContentBlock {
+  id: number;
+  __component: string;
+  componentName: string;
+  [key: string]: any;  // Flexibility to accommodate various data structures
+}
+
+// Loader function to fetch and process page data
 export async function loader({ params }: any) {
   const slug = params["*"] ?? "home";
   const pageData = await getPageBySlug(slug);
@@ -23,41 +27,39 @@ export async function loader({ params }: any) {
     throw new Response("Not Found", { status: 404 });
   }
 
-  console.log("Page Data in Loader:", pageData);
+  // Process each block in the content array
+  const processedContent = pageData.Content.map((block: ContentBlock) => {
+    const processedBlock = { ...block }; // Shallow copy to avoid mutating the original block
 
-  const page = {
-    id: pageData.id,
-    Title: pageData.Title ?? "Untitled Page",
-    Content: pageData.Content.map((block : any) => {
-      switch (block.__component) {
-        case 'macro-components.profile-list': {
-          const profiles = block.profiles?.data?.map((profile: any) => ({
-            id: profile.id,
-            ...profile.attributes,
-          })) ?? [];
+    // Handle specific component cases if needed
+    switch (block.__component) {
+      case 'macro-components.profile-list':
+        processedBlock.profiles = block.profiles?.data?.map((profile: any) => ({
+          id: profile.id,
+          ...profile.attributes,
+        })) ?? [];
+        break;
 
-          return {
-            ...block,
-            profiles,
-          };
-        }
-        // Add other cases for different components as needed
-        case 'macro-components.another-component': {
-          // Process data for another component
-          return block; // Just an example, adjust as necessary
-        }
-        default: {
-          return block; // Return block as-is for components not requiring special processing
-        }
-      }
-    }),
-  };
+      // Add more cases as necessary for other components
+      default:
+        // Default processing for blocks that don't need special handling
+        break;
+    }
 
+    return processedBlock;
+  });
+
+  // Return the processed page data
   return json({
-    page,
+    page: {
+      id: pageData.id,
+      Title: pageData.Title ?? "Untitled Page",
+      Content: processedContent,
+    },
   });
 }
 
+// DynamicPage component to render the content dynamically
 export default function DynamicPage() {
   const { page } = useLoaderData<{ page: Page }>();
 
@@ -71,10 +73,11 @@ export default function DynamicPage() {
         {page.Content && page.Content.length > 0 ? (
           page.Content.map((block, index) => {
             const Component = componentMap[block.componentName];  // Find the component from the map
+
             if (Component) {
-              return <Component key={index} {...block} />;  // Render the component if found
+              return <Component key={block.id} {...block} />;  // Render the component if found
             }
-            return <div key={index}>Unknown component</div>;  // Fallback for unknown components
+            return <div key={block.id}>Unknown component</div>;  // Fallback for unknown components
           })
         ) : (
           <div>No content available</div>

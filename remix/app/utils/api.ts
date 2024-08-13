@@ -15,27 +15,27 @@ const fetchData = async (url: string) => {
 
 export const getNavData = async () => {
   const navData = await fetchData(
-    `${process.env.STRAPI_URL}/api/navigation?populate=*`
+    `${process.env.STRAPI_URL}/api/navigation?populate=deep`
   );
   return flattenAttributes(navData);
 };
 
 export const getContactData = async () => {
   const contactData = await fetchData(
-    `${process.env.STRAPI_URL}/api/contact-info?populate=*`
+    `${process.env.STRAPI_URL}/api/contact-info?populate=deep`
   );
   return flattenAttributes(contactData);
 };
 
 export const getPages = async () => {
   const pages = await fetchData(
-    `${process.env.STRAPI_URL}/api/pages?populate=*`
+    `${process.env.STRAPI_URL}/api/pages?populate=deep`
   );
   return flattenAttributes(pages);
 };
 
 export const getFacultyData = async () => {
-  const facultyData = await fetchData(`${strapiUrl}/api/faculties?populate=*`);
+  const facultyData = await fetchData(`${strapiUrl}/api/faculties?populate=deep`);
   return facultyData.data.map((item: any) => flattenAttributes(item));
 };
 
@@ -44,15 +44,13 @@ export const getPageBySlug = async (slug: string) => {
   const response = await fetchData(
     `${process.env.STRAPI_URL}/api/pages?filters[Slug][$eq]=${
       slugParts[slugParts.length - 1]
-    }&populate[Content][populate]=profiles`
+    }&populate=deep`
   );
 
   if (!response || !response.data || !Array.isArray(response.data)) {
     console.error("No data returned for the given slug:", slug);
     return null;
-  }
-
-  console.log("Fetched Page Data with Profiles:", response.data); // Check if profiles are populated
+  }// Check if profiles are populated
 
   return response.data.length ? flattenAttributes(response.data[0]) : null;
 };
