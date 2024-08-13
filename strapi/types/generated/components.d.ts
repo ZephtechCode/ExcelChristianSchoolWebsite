@@ -34,6 +34,17 @@ export interface MiniComponentsButtonFramed extends Schema.Component {
   };
 }
 
+export interface MacroComponentsRichText extends Schema.Component {
+  collectionName: 'components_macro_components_rich_texts';
+  info: {
+    displayName: 'Rich Text';
+    icon: 'apps';
+  };
+  attributes: {
+    Content: Attribute.Blocks;
+  };
+}
+
 export interface MacroComponentsProfileList extends Schema.Component {
   collectionName: 'components_macro_components_profile_lists';
   info: {
@@ -56,6 +67,7 @@ declare module '@strapi/types' {
       'why.grid': WhyGrid;
       'why.card': WhyCard;
       'mini-components.button-framed': MiniComponentsButtonFramed;
+      'macro-components.rich-text': MacroComponentsRichText;
       'macro-components.profile-list': MacroComponentsProfileList;
     }
   }
