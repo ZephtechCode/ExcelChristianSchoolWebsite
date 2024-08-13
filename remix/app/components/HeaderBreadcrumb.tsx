@@ -31,14 +31,14 @@ export function HeaderBreadcrumb() {
     <Breadcrumb>
       <BreadcrumbList>
         {breadcrumbs.map((breadcrumb, i) => (
-          <>
+          <span key={breadcrumb.title}>
             <BreadcrumbItem>
               <BreadcrumbLink href={breadcrumb.path}>
                 {breadcrumb.title}
               </BreadcrumbLink>
             </BreadcrumbItem>
             {i !== breadcrumbs.length - 1 && <BreadcrumbSeparator />}
-          </>
+          </span>
         ))}
       </BreadcrumbList>
     </Breadcrumb>

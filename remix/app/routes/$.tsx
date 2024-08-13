@@ -28,7 +28,7 @@ export async function loader({ params }: any) {
   const processedContent = pageData.Content.map((block: any) => {
     console.log("Processing block:", block);
     const Component = componentMap[block.__component];
-    
+
     if (Component) {
       console.log(`Found component for ${block.__component}`);
       if (Component.processBlockData) {
@@ -73,9 +73,9 @@ export default function DynamicPage() {
             const Component = componentMap[block.__component];
             console.log("Rendering block:", block);
             if (Component) {
-              return <Component key={block.id || index} {...block} />;
+              return <Component key={block.id + index || index} {...block} />;
             }
-            return <div key={block.id || index}>Unknown component</div>;
+            return <div key={block.id + index || index}>Unknown component</div>;
           })
         ) : (
           <div>No content available</div>
