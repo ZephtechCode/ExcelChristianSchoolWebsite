@@ -33,26 +33,12 @@
       "target": "api::page.page",
       "inversedBy": "Children"
     },
-    "Template": {
-      "type": "enumeration",
-      "enum": [
-        "Enumerative Cards"
-      ],
-      "required": false
-    },
-    "DataReference": {
-      "type": "enumeration",
-      "enum": [
-        "Faculty"
-      ]
-    },
     "Content": {
       "type": "dynamiczone",
       "components": [
         "why.card",
         "why.grid",
-        "macro.admin-staff-list",
-        "macro.rich-text"
+        "macro-components.profile-list"
       ]
     }
   }

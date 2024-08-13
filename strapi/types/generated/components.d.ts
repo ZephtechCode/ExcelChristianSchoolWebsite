@@ -22,28 +22,19 @@ export interface WhyCard extends Schema.Component {
   };
 }
 
-export interface MacroRichText extends Schema.Component {
-  collectionName: 'components_macro_rich_texts';
+export interface MacroComponentsProfileList extends Schema.Component {
+  collectionName: 'components_macro_components_profile_lists';
   info: {
-    displayName: 'Rich Text';
+    displayName: 'Profile List';
+    icon: 'emotionHappy';
   };
   attributes: {
-    Content: Attribute.Blocks;
-  };
-}
-
-export interface MacroAdminStaffList extends Schema.Component {
-  collectionName: 'components_macro_admin_staff_lists';
-  info: {
-    displayName: 'AdminStaffList';
-    icon: 'bulletList';
-  };
-  attributes: {
-    faculties: Attribute.Relation<
-      'macro.admin-staff-list',
+    profiles: Attribute.Relation<
+      'macro-components.profile-list',
       'oneToMany',
-      'api::faculty.faculty'
+      'api::profile.profile'
     >;
+    componentName: Attribute.Enumeration<['ProfileList']>;
   };
 }
 
@@ -52,8 +43,7 @@ declare module '@strapi/types' {
     export interface Components {
       'why.grid': WhyGrid;
       'why.card': WhyCard;
-      'macro.rich-text': MacroRichText;
-      'macro.admin-staff-list': MacroAdminStaffList;
+      'macro-components.profile-list': MacroComponentsProfileList;
     }
   }
 }

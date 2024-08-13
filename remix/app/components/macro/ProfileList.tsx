@@ -2,8 +2,9 @@ import React from 'react';
 
 interface Profile {
   id: number;
-  name: string;
-  title: string;
+  Name: string;
+  Position: string;
+  Bio: string;
 }
 
 interface ProfileListProps {
@@ -11,7 +12,7 @@ interface ProfileListProps {
 }
 
 const ProfileList: React.FC<ProfileListProps> = ({ profiles }) => {
-  console.log("Profiles in ProfileList Component:", profiles); // Log to see if profiles are received
+
 
   if (!profiles || profiles.length === 0) {
     return <div>No profiles available</div>;
@@ -23,8 +24,9 @@ const ProfileList: React.FC<ProfileListProps> = ({ profiles }) => {
       <ul>
         {profiles.map(profile => (
           <li key={profile.id}>
-            <h3>{profile.name}</h3>
-            <p>{profile.title}</p>
+            <h3>{profile.Name}</h3>
+            <p>{profile.Position}</p>
+            <p>{profile.Bio}</p>
           </li>
         ))}
       </ul>

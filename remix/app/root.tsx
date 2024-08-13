@@ -19,7 +19,7 @@ const queryClient = new QueryClient();
 export async function loader() {
   const contactInfo = await getContactData();
   const pageData = await getPages();
-
+  console.log("Contact Info:", contactInfo);
   return json({
     contactInfo,
     pageData,

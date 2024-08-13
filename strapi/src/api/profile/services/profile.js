@@ -1,9 +1,9 @@
 'use strict';
 
 /**
- * faculty service
+ * profile service
  */
 
 const { createCoreService } = require('@strapi/strapi').factories;
 
-module.exports = createCoreService('api::faculty.faculty');
+module.exports = createCoreService('api::profile.profile');
