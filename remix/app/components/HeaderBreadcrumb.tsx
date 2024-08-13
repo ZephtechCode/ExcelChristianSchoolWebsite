@@ -8,6 +8,7 @@ import {
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
 import { useLocation } from "@remix-run/react";
+import React from "react";
 
 const constructBreadCrumbs = (path: string) => {
   const parts: string[] = path.split("/").filter((a) => a);
@@ -31,14 +32,14 @@ export function HeaderBreadcrumb() {
     <Breadcrumb>
       <BreadcrumbList>
         {breadcrumbs.map((breadcrumb, i) => (
-          <span key={breadcrumb.title}>
+          <React.Fragment key={breadcrumb.title}>
             <BreadcrumbItem>
               <BreadcrumbLink href={breadcrumb.path}>
                 {breadcrumb.title}
               </BreadcrumbLink>
             </BreadcrumbItem>
             {i !== breadcrumbs.length - 1 && <BreadcrumbSeparator />}
-          </span>
+          </React.Fragment>
         ))}
       </BreadcrumbList>
     </Breadcrumb>
