@@ -1,7 +1,7 @@
 import { json, useLoaderData } from "@remix-run/react";
 import { getPageBySlug } from "~/utils/api";
 import { HeaderBreadcrumb } from "~/components/HeaderBreadcrumb";
-import componentMap from '~/components/componentMap';
+import componentMap from "~/components/componentMap";
 
 // Define a generalized Page interface
 export interface Page {
@@ -15,10 +15,8 @@ export interface ContentBlock {
   id: number;
   __component: string;
   componentName: string;
-  [key: string]: any;  // Flexibility to accommodate various data structures
+  [key: string]: any; // Flexibility to accommodate various data structures
 }
-
-// Loader function to fetch and process page data
 export async function loader({ params }: any) {
   const slug = params["*"] ?? "home";
   const pageData = await getPageBySlug(slug);
@@ -27,29 +25,31 @@ export async function loader({ params }: any) {
     throw new Response("Not Found", { status: 404 });
   }
 
-  // Process each block in the content array
-  const processedContent = pageData.Content.map((block: ContentBlock) => {
-    const processedBlock = { ...block }; // Shallow copy to avoid mutating the original block
-
-    // Handle specific component cases if needed
-    switch (block.__component) {
-      case 'macro-components.profile-list':
-        processedBlock.profiles = block.profiles?.data?.map((profile: any) => ({
-          id: profile.id,
-          ...profile.attributes,
-        })) ?? [];
-        break;
-
-      // Add more cases as necessary for other components
-      default:
-        // Default processing for blocks that don't need special handling
-        break;
+  const processedContent = pageData.Content.map((block: any) => {
+    console.log("Processing block:", block);
+    const Component = componentMap[block.__component];
+    
+    if (Component) {
+      console.log(`Found component for ${block.__component}`);
+      if (Component.processBlockData) {
+        console.log(`Processing data for ${block.__component}`);
+        const processedBlock = {
+          ...block,
+          ...Component.processBlockData(block),
+        };
+        console.log("Processed block:", processedBlock);
+        return processedBlock;
+      } else {
+        console.log(`No processBlockData method for ${block.__component}`);
+      }
+    } else {
+      console.log(`No component found for ${block.__component}`);
     }
-
-    return processedBlock;
+    return block;
   });
 
-  // Return the processed page data
+  console.log("Final processed content:", processedContent);
+
   return json({
     page: {
       id: pageData.id,
@@ -58,8 +58,6 @@ export async function loader({ params }: any) {
     },
   });
 }
-
-// DynamicPage component to render the content dynamically
 export default function DynamicPage() {
   const { page } = useLoaderData<{ page: Page }>();
 
@@ -72,12 +70,12 @@ export default function DynamicPage() {
       <div>
         {page.Content && page.Content.length > 0 ? (
           page.Content.map((block, index) => {
-            const Component = componentMap[block.componentName];  // Find the component from the map
-
+            const Component = componentMap[block.__component];
+            console.log("Rendering block:", block);
             if (Component) {
-              return <Component key={block.id} {...block} />;  // Render the component if found
+              return <Component key={block.id || index} {...block} />;
             }
-            return <div key={block.id}>Unknown component</div>;  // Fallback for unknown components
+            return <div key={block.id || index}>Unknown component</div>;
           })
         ) : (
           <div>No content available</div>

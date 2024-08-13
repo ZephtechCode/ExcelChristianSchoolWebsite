@@ -38,7 +38,8 @@
       "components": [
         "why.card",
         "why.grid",
-        "macro-components.profile-list"
+        "macro-components.profile-list",
+        "mini-components.button-framed"
       ]
     }
   }

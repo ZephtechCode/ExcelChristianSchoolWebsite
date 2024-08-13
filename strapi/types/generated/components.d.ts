@@ -22,6 +22,18 @@ export interface WhyCard extends Schema.Component {
   };
 }
 
+export interface MiniComponentsButtonFramed extends Schema.Component {
+  collectionName: 'components_mini_components_button_frameds';
+  info: {
+    displayName: 'Button Framed';
+  };
+  attributes: {
+    Label: Attribute.String;
+    URL: Attribute.String;
+    Icon: Attribute.Enumeration<['coffee']>;
+  };
+}
+
 export interface MacroComponentsProfileList extends Schema.Component {
   collectionName: 'components_macro_components_profile_lists';
   info: {
@@ -43,6 +55,7 @@ declare module '@strapi/types' {
     export interface Components {
       'why.grid': WhyGrid;
       'why.card': WhyCard;
+      'mini-components.button-framed': MiniComponentsButtonFramed;
       'macro-components.profile-list': MacroComponentsProfileList;
     }
   }

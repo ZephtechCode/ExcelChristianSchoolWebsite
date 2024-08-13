@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { FC } from 'react';
 import { Card } from "@/components/ui/card";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 
@@ -53,7 +53,7 @@ const getBestImageUrl = (portrait?: PortraitAttributes): string | null => {
 };
 
 // ProfileList component
-const ProfileList: React.FC<ProfileListProps> = ({ profiles }) => {
+const ProfileList: FC<ProfileListProps> & { processBlockData?: (block: any) => ProfileListProps } = ({ profiles }) => {
   if (!profiles || profiles.length === 0) {
     return <div>No profiles available</div>;
   }
@@ -100,6 +100,16 @@ const ProfileList: React.FC<ProfileListProps> = ({ profiles }) => {
       ))}
     </div>
   );
+};
+
+// Static method for processing block data for this component
+ProfileList.processBlockData = (block: any) => {
+  return {
+    profiles: block.profiles?.data?.map((profile: any) => ({
+      id: profile.id,
+      ...profile.attributes,
+    })) ?? [],
+  };
 };
 
 export default ProfileList;

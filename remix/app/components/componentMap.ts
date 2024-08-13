@@ -1,14 +1,16 @@
 import { FC } from 'react';
 import ProfileList from '~/components/macro/ProfileList';
+import ButtonFramed from '~/components/mini/Button/ButtonFramed';
 
-// Define the interface for the component map
 interface ComponentMap {
-  [key: string]: FC<any>; // Maps component names to their respective React functional components
+  [key: string]: FC<any> & { processBlockData?: (block: any) => any }; 
 }
 
-// Create the component map
 const componentMap: ComponentMap = {
-  ProfileList, // No need to repeat `ProfileList: ProfileList` in ES6
+  // Macro components
+  "macro-components.profile-list" : ProfileList,
+  // Mini components
+  "mini-components.button-framed" : ButtonFramed,
 };
 
 export default componentMap;
