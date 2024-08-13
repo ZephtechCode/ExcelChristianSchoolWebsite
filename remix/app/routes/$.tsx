@@ -62,7 +62,7 @@ export default function DynamicPage() {
   const { page } = useLoaderData<{ page: Page }>();
 
   return (
-    <div className="h-[100vh]">
+    <div className="h-[100vh] bg-[#F4F4E8]">
       <div className="w-full flex flex-col gap-4 items-center justify-center bg-neutral-700 h-[150px]">
         <h1 className="text-5xl text-white kadwa-regular">{page.Title}</h1>
         <HeaderBreadcrumb />
@@ -78,7 +78,9 @@ export default function DynamicPage() {
             return <div key={block.id + index || index}>Unknown component</div>;
           })
         ) : (
-          <div>No content available</div>
+          <div className="text-3xl kadwa-regular flex my-4 items-center justify-center">
+            Uh-oh, There is no content available for this page
+          </div>
         )}
       </div>
     </div>

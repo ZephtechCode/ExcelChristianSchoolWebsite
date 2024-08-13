@@ -851,7 +851,8 @@ export interface ApiPagePage extends Schema.CollectionType {
         'why.card',
         'why.grid',
         'macro-components.profile-list',
-        'mini-components.button-framed'
+        'mini-components.button-framed',
+        'macro-components.rich-text'
       ]
     >;
     createdAt: Attribute.DateTime;
