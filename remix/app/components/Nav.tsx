@@ -58,7 +58,8 @@ export default function Nav() {
 
         {rootPages.map((page) =>
           page.Children && page.Children.length > 0 ? (
-            <NavigationMenuItem className="relative" key={page.Slug}>
+            <Link to={`/${page.Slug}`} key={page.Slug}>
+            <NavigationMenuItem className="relative">
               <NavigationMenuTrigger>{page.Title}</NavigationMenuTrigger>
               <NavigationMenuContent className="mt-[-10px]">
                 <ul>
@@ -72,6 +73,7 @@ export default function Nav() {
                 </ul>
               </NavigationMenuContent>
             </NavigationMenuItem>
+            </Link>
           ) : (
             <NavigationMenuItem key={page.Slug}>
               <NavigationMenuLink

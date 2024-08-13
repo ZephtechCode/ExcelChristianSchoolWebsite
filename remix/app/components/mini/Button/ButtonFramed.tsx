@@ -1,14 +1,6 @@
 import { FC } from 'react';
 import { Button } from "@/components/ui/button";
-import { IconType } from "react-icons";
-import { FaBook, FaCoffee, FaUser } from "react-icons/fa";
-
-// Define the icon map
-const iconMap: Record<string, IconType> = {
-  FaBook: FaBook,
-  FaCoffee: FaCoffee,
-  FaUser: FaUser,
-};
+import iconMap from '~/utils/iconMap';
 
 interface ButtonFrameProps {
   icon?: string;
@@ -21,7 +13,7 @@ const ButtonFramed: FC<ButtonFrameProps> & { processBlockData?: (block: any) => 
 
   return (
     <Button
-      className="bg-transparent border-2 border-red-700 text-red-700 flex items-center"
+      className="bg-transparent border-2 border-red-700 text-red-700 flex items-center hover:bg-neutral-700 hover:text-white hover:border-neutral-700" 
       onClick={() => {
         if (url) {
           window.location.href = url;
