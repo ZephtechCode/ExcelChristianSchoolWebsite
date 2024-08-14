@@ -1,59 +1,50 @@
 import type { Schema, Attribute } from '@strapi/strapi';
 
-export interface WhyGrid extends Schema.Component {
-  collectionName: 'components_why_grids';
+export interface MiniComponentsButtonFramed extends Schema.Component {
+  collectionName: 'components_mini_components_button_frameds';
   info: {
-    displayName: 'Grid';
-    icon: 'grid';
+    displayName: 'Button Framed';
   };
   attributes: {
-    Card: Attribute.Component<'why.card', true>;
+    Label: Attribute.String;
+    URL: Attribute.String;
+    Icon: Attribute.Enumeration<['coffee']>;
   };
 }
 
-export interface WhyCard extends Schema.Component {
-  collectionName: 'components_why_cards';
-  info: {
-    displayName: 'Card';
-    icon: 'grid';
-  };
-  attributes: {
-    Title: Attribute.String;
-  };
-}
-
-export interface MacroRichText extends Schema.Component {
-  collectionName: 'components_macro_rich_texts';
+export interface MacroComponentsRichText extends Schema.Component {
+  collectionName: 'components_macro_components_rich_texts';
   info: {
     displayName: 'Rich Text';
+    icon: 'apps';
   };
   attributes: {
     Content: Attribute.Blocks;
   };
 }
 
-export interface MacroAdminStaffList extends Schema.Component {
-  collectionName: 'components_macro_admin_staff_lists';
+export interface MacroComponentsProfileList extends Schema.Component {
+  collectionName: 'components_macro_components_profile_lists';
   info: {
-    displayName: 'AdminStaffList';
-    icon: 'bulletList';
+    displayName: 'Profile List';
+    icon: 'emotionHappy';
   };
   attributes: {
-    faculties: Attribute.Relation<
-      'macro.admin-staff-list',
+    profiles: Attribute.Relation<
+      'macro-components.profile-list',
       'oneToMany',
-      'api::faculty.faculty'
+      'api::profile.profile'
     >;
+    componentName: Attribute.Enumeration<['ProfileList']>;
   };
 }
 
 declare module '@strapi/types' {
   export module Shared {
     export interface Components {
-      'why.grid': WhyGrid;
-      'why.card': WhyCard;
-      'macro.rich-text': MacroRichText;
-      'macro.admin-staff-list': MacroAdminStaffList;
+      'mini-components.button-framed': MiniComponentsButtonFramed;
+      'macro-components.rich-text': MacroComponentsRichText;
+      'macro-components.profile-list': MacroComponentsProfileList;
     }
   }
 }

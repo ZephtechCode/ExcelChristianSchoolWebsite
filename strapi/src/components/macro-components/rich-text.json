@@ -1,0 +1,13 @@
+{
+  "collectionName": "components_macro_components_rich_texts",
+  "info": {
+    "displayName": "Rich Text",
+    "icon": "apps"
+  },
+  "options": {},
+  "attributes": {
+    "Content": {
+      "type": "blocks"
+    }
+  }
+}

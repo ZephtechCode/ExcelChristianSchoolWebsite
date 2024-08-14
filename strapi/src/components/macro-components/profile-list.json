@@ -1,0 +1,21 @@
+{
+  "collectionName": "components_macro_components_profile_lists",
+  "info": {
+    "displayName": "Profile List",
+    "icon": "emotionHappy"
+  },
+  "options": {},
+  "attributes": {
+    "profiles": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::profile.profile"
+    },
+    "componentName": {
+      "type": "enumeration",
+      "enum": [
+        "ProfileList"
+      ]
+    }
+  }
+}

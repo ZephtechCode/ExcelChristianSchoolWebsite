@@ -826,83 +826,6 @@ export interface ApiContactInfoContactInfo extends Schema.SingleType {
   };
 }
 
-export interface ApiFacultyFaculty extends Schema.CollectionType {
-  collectionName: 'faculties';
-  info: {
-    singularName: 'faculty';
-    pluralName: 'faculties';
-    displayName: 'Faculty';
-    description: '';
-  };
-  options: {
-    draftAndPublish: true;
-  };
-  pluginOptions: {
-    i18n: {
-      localized: true;
-    };
-  };
-  attributes: {
-    Position: Attribute.String &
-      Attribute.SetPluginOptions<{
-        i18n: {
-          localized: true;
-        };
-      }>;
-    Education: Attribute.RichText &
-      Attribute.SetPluginOptions<{
-        i18n: {
-          localized: true;
-        };
-      }>;
-    Licenses: Attribute.RichText &
-      Attribute.SetPluginOptions<{
-        i18n: {
-          localized: true;
-        };
-      }>;
-    Description: Attribute.Text &
-      Attribute.SetPluginOptions<{
-        i18n: {
-          localized: true;
-        };
-      }>;
-    Image: Attribute.Media<'images'> &
-      Attribute.SetPluginOptions<{
-        i18n: {
-          localized: true;
-        };
-      }>;
-    Name: Attribute.UID &
-      Attribute.SetPluginOptions<{
-        i18n: {
-          localized: true;
-        };
-      }>;
-    createdAt: Attribute.DateTime;
-    updatedAt: Attribute.DateTime;
-    publishedAt: Attribute.DateTime;
-    createdBy: Attribute.Relation<
-      'api::faculty.faculty',
-      'oneToOne',
-      'admin::user'
-    > &
-      Attribute.Private;
-    updatedBy: Attribute.Relation<
-      'api::faculty.faculty',
-      'oneToOne',
-      'admin::user'
-    > &
-      Attribute.Private;
-    localizations: Attribute.Relation<
-      'api::faculty.faculty',
-      'oneToMany',
-      'api::faculty.faculty'
-    >;
-    locale: Attribute.String;
-  };
-}
-
 export interface ApiPagePage extends Schema.CollectionType {
   collectionName: 'pages';
   info: {
@@ -923,10 +846,12 @@ export interface ApiPagePage extends Schema.CollectionType {
       'api::page.page'
     >;
     Parent: Attribute.Relation<'api::page.page', 'manyToOne', 'api::page.page'>;
-    Template: Attribute.Enumeration<['Enumerative Cards']>;
-    DataReference: Attribute.Enumeration<['Faculty']>;
     Content: Attribute.DynamicZone<
-      ['why.card', 'why.grid', 'macro.admin-staff-list', 'macro.rich-text']
+      [
+        'macro-components.profile-list',
+        'mini-components.button-framed',
+        'macro-components.rich-text'
+      ]
     >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
@@ -934,6 +859,40 @@ export interface ApiPagePage extends Schema.CollectionType {
     createdBy: Attribute.Relation<'api::page.page', 'oneToOne', 'admin::user'> &
       Attribute.Private;
     updatedBy: Attribute.Relation<'api::page.page', 'oneToOne', 'admin::user'> &
+      Attribute.Private;
+  };
+}
+
+export interface ApiProfileProfile extends Schema.CollectionType {
+  collectionName: 'profiles';
+  info: {
+    singularName: 'profile';
+    pluralName: 'profiles';
+    displayName: 'Profile';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    Name: Attribute.String & Attribute.Required & Attribute.Unique;
+    Position: Attribute.String;
+    EducationCertsAndLicenses: Attribute.JSON;
+    Bio: Attribute.Text;
+    Portrait: Attribute.Media<'images'>;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::profile.profile',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::profile.profile',
+      'oneToOne',
+      'admin::user'
+    > &
       Attribute.Private;
   };
 }
@@ -957,8 +916,8 @@ declare module '@strapi/types' {
       'plugin::users-permissions.role': PluginUsersPermissionsRole;
       'plugin::users-permissions.user': PluginUsersPermissionsUser;
       'api::contact-info.contact-info': ApiContactInfoContactInfo;
-      'api::faculty.faculty': ApiFacultyFaculty;
       'api::page.page': ApiPagePage;
+      'api::profile.profile': ApiProfileProfile;
     }
   }
 }

@@ -1,0 +1,21 @@
+{
+  "collectionName": "components_mini_components_button_frameds",
+  "info": {
+    "displayName": "Button Framed"
+  },
+  "options": {},
+  "attributes": {
+    "Label": {
+      "type": "string"
+    },
+    "URL": {
+      "type": "string"
+    },
+    "Icon": {
+      "type": "enumeration",
+      "enum": [
+        "coffee"
+      ]
+    }
+  }
+}
