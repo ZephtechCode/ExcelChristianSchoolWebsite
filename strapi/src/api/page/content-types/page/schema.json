@@ -36,9 +36,9 @@
     "Content": {
       "type": "dynamiczone",
       "components": [
-        "macro-components.profile-list",
         "mini-components.button-framed",
-        "macro-components.rich-text"
+        "macro-components.rich-text",
+        "macro-components.profile-list"
       ]
     }
   }

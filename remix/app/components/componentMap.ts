@@ -9,8 +9,9 @@ interface ComponentMap {
 
 const componentMap: ComponentMap = {
   // Macro components
-  "macro-components.profile-list": ProfileList,
+  "macro-components.row.profile-list": ProfileList,
   "macro-components.rich-text": RichText,
+
   // Mini components
   "mini-components.button-framed": ButtonFramed,
 };

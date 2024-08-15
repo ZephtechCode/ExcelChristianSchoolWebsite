@@ -848,9 +848,9 @@ export interface ApiPagePage extends Schema.CollectionType {
     Parent: Attribute.Relation<'api::page.page', 'manyToOne', 'api::page.page'>;
     Content: Attribute.DynamicZone<
       [
-        'macro-components.profile-list',
         'mini-components.button-framed',
-        'macro-components.rich-text'
+        'macro-components.rich-text',
+        'macro-components.profile-list'
       ]
     >;
     createdAt: Attribute.DateTime;
