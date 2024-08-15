@@ -50,7 +50,7 @@ export const getPageBySlug = async (slug: string) => {
   if (!response || !response.data || !Array.isArray(response.data)) {
     console.error("No data returned for the given slug:", slug);
     return null;
-  }// Check if profiles are populated
+  }
 
   return response.data.length ? flattenAttributes(response.data[0]) : null;
 };

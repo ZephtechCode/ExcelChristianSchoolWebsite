@@ -850,7 +850,7 @@ export interface ApiPagePage extends Schema.CollectionType {
       [
         'mini-components.button-framed',
         'macro-components.rich-text',
-        'macro-components.profile-list'
+        'macro-components.profile-card'
       ]
     >;
     createdAt: Attribute.DateTime;

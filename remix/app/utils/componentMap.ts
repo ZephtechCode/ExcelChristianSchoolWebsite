@@ -1,7 +1,7 @@
 import { FC } from "react";
-import ProfileList from "~/components/macro/ProfileList";
+import ProfileCard from "~/components/macro/ProfileCard";
 import ButtonFramed from "~/components/mini/Button/ButtonFramed";
-import { RichText } from "./macro/RichText";
+import { RichText } from "../components/macro/RichText";
 
 interface ComponentMap {
   [key: string]: FC<any> & { processBlockData?: (block: any) => any };
@@ -9,7 +9,7 @@ interface ComponentMap {
 
 const componentMap: ComponentMap = {
   // Macro components
-  "macro-components.row.profile-list": ProfileList,
+  "macro-components.profile-card": ProfileCard,
   "macro-components.rich-text": RichText,
 
   // Mini components

@@ -1,7 +1,7 @@
 import { json, useLoaderData } from "@remix-run/react";
 import { getPageBySlug } from "~/utils/api";
 import { HeaderBreadcrumb } from "~/components/HeaderBreadcrumb";
-import componentMap from "~/components/componentMap";
+import componentMap from "~/utils/componentMap";
 
 // Define a generalized Page interface
 export interface Page {

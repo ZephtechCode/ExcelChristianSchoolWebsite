@@ -38,7 +38,7 @@
       "components": [
         "mini-components.button-framed",
         "macro-components.rich-text",
-        "macro-components.profile-list"
+        "macro-components.profile-card"
       ]
     }
   }

@@ -33,7 +33,7 @@ interface Profile {
   };
 }
 
-interface ProfileListProps {
+interface ProfileCardProps {
   profiles: Profile[];
 }
 
@@ -52,8 +52,8 @@ const getBestImageUrl = (portrait?: PortraitAttributes): string | null => {
   return portrait.url ?? null; // Fallback to the base URL if no format is available
 };
 
-// ProfileList component
-const ProfileList: FC<ProfileListProps> & { processBlockData?: (block: any) => ProfileListProps } = ({ profiles }) => {
+// ProfileCard component
+const ProfileCard: FC<ProfileCardProps> & { processBlockData?: (block: any) => ProfileCardProps } = ({ profiles }) => {
   if (!profiles || profiles.length === 0) {
     return <div>No profiles available</div>;
   }
@@ -65,7 +65,7 @@ const ProfileList: FC<ProfileListProps> & { processBlockData?: (block: any) => P
           <Avatar className="w-32 h-32">
             {Portrait?.data?.attributes && getBestImageUrl(Portrait.data.attributes) ? (
               <AvatarImage
-                src={`http://localhost:1337${getBestImageUrl(Portrait.data.attributes)}`}
+                src={`process.env.STRAPI_URL${getBestImageUrl(Portrait.data.attributes)}`}
                 alt={Name}
                 className="object-cover" // Ensures the image maintains its aspect ratio
               />
@@ -103,7 +103,7 @@ const ProfileList: FC<ProfileListProps> & { processBlockData?: (block: any) => P
 };
 
 // Static method for processing block data for this component
-ProfileList.processBlockData = (block: any) => {
+ProfileCard.processBlockData = (block: any) => {
   return {
     profiles: block.profiles?.data?.map((profile: any) => ({
       id: profile.id,
@@ -112,4 +112,4 @@ ProfileList.processBlockData = (block: any) => {
   };
 };
 
-export default ProfileList;
+export default ProfileCard;

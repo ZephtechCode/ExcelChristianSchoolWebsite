@@ -1,9 +1,8 @@
 {
-  "collectionName": "components_macro_components_profile_lists",
+  "collectionName": "components_macro_components_profile_cards",
   "info": {
-    "displayName": "Profile List",
-    "icon": "emotionHappy",
-    "description": ""
+    "displayName": "Profile Card",
+    "icon": "oneToMany"
   },
   "options": {},
   "attributes": {
