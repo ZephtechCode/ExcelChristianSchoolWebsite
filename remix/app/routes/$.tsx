@@ -26,29 +26,22 @@ export async function loader({ params }: any) {
   }
 
   const processedContent = pageData.Content.map((block: any) => {
-    console.log("Processing block:", block);
     const Component = componentMap[block.__component];
 
     if (Component) {
-      console.log(`Found component for ${block.__component}`);
       if (Component.processBlockData) {
-        console.log(`Processing data for ${block.__component}`);
         const processedBlock = {
           ...block,
           ...Component.processBlockData(block),
         };
-        console.log("Processed block:", processedBlock);
         return processedBlock;
       } else {
-        console.log(`No processBlockData method for ${block.__component}`);
       }
     } else {
-      console.log(`No component found for ${block.__component}`);
     }
     return block;
   });
 
-  console.log("Final processed content:", processedContent);
 
   return json({
     page: {
@@ -71,7 +64,6 @@ export default function DynamicPage() {
         {page.Content && page.Content.length > 0 ? (
           page.Content.map((block, index) => {
             const Component = componentMap[block.__component];
-            console.log("Rendering block:", block);
             if (Component) {
               return <Component key={block.id + index || index} {...block} />;
             }

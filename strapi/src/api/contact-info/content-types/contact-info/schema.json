@@ -25,7 +25,7 @@
       "type": "string"
     },
     "MapLink": {
-      "type": "string"
+      "type": "text"
     },
     "Accreditations": {
       "type": "json"

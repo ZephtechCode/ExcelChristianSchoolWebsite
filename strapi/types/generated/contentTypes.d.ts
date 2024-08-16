@@ -804,7 +804,7 @@ export interface ApiContactInfoContactInfo extends Schema.SingleType {
     SupportEmail: Attribute.Email;
     Address: Attribute.String;
     Fax: Attribute.String;
-    MapLink: Attribute.String;
+    MapLink: Attribute.Text;
     Accreditations: Attribute.JSON;
     Copyright: Attribute.String;
     Name: Attribute.String;

@@ -1,4 +1,6 @@
-const strapiUrl = "http://localhost:1337";
+export const strapiUrl = process.env.STRAPI_URL;
+
+
 const fetchData = async (url: string) => {
   try {
     const response = await fetch(url, {

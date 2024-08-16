@@ -21,10 +21,11 @@ export async function loader() {
     getContactData(),
     getPages(),
   ]);
-
+  console.log(process.env.STRAPI_URL);
   return json({
     contactInfo,
     pageData,
+    strapiUrl: process.env.STRAPI_URL,
   });
 }
 
