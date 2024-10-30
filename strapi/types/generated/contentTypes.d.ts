@@ -788,30 +788,37 @@ export interface PluginUsersPermissionsUser extends Schema.CollectionType {
   };
 }
 
-export interface ApiNavigationNavigation extends Schema.SingleType {
-  collectionName: 'navigations';
+export interface ApiContactInfoContactInfo extends Schema.SingleType {
+  collectionName: 'contact_infos';
   info: {
-    singularName: 'navigation';
-    pluralName: 'navigations';
-    displayName: 'Navigation';
+    singularName: 'contact-info';
+    pluralName: 'contact-infos';
+    displayName: 'Contact Info';
     description: '';
   };
   options: {
     draftAndPublish: true;
   };
   attributes: {
-    MenuItem: Attribute.Component<'menu-item.menu-item', true>;
+    Phone: Attribute.String;
+    SupportEmail: Attribute.Email;
+    Address: Attribute.String;
+    Fax: Attribute.String;
+    MapLink: Attribute.Text;
+    Accreditations: Attribute.JSON;
+    Copyright: Attribute.String;
+    Name: Attribute.String;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
     createdBy: Attribute.Relation<
-      'api::navigation.navigation',
+      'api::contact-info.contact-info',
       'oneToOne',
       'admin::user'
     > &
       Attribute.Private;
     updatedBy: Attribute.Relation<
-      'api::navigation.navigation',
+      'api::contact-info.contact-info',
       'oneToOne',
       'admin::user'
     > &
@@ -825,20 +832,67 @@ export interface ApiPagePage extends Schema.CollectionType {
     singularName: 'page';
     pluralName: 'pages';
     displayName: 'Page';
+    description: '';
   };
   options: {
     draftAndPublish: true;
   };
   attributes: {
-    Content: Attribute.Blocks;
-    Title: Attribute.String;
-    slug: Attribute.String;
+    Title: Attribute.String & Attribute.Required;
+    Slug: Attribute.UID<'api::page.page', 'Title'> & Attribute.Required;
+    Children: Attribute.Relation<
+      'api::page.page',
+      'oneToMany',
+      'api::page.page'
+    >;
+    Parent: Attribute.Relation<'api::page.page', 'manyToOne', 'api::page.page'>;
+    Content: Attribute.DynamicZone<
+      [
+        'mini-components.button-framed',
+        'macro-components.rich-text',
+        'macro-components.profile-card'
+      ]
+    >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
     createdBy: Attribute.Relation<'api::page.page', 'oneToOne', 'admin::user'> &
       Attribute.Private;
     updatedBy: Attribute.Relation<'api::page.page', 'oneToOne', 'admin::user'> &
+      Attribute.Private;
+  };
+}
+
+export interface ApiProfileProfile extends Schema.CollectionType {
+  collectionName: 'profiles';
+  info: {
+    singularName: 'profile';
+    pluralName: 'profiles';
+    displayName: 'Profile';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    Name: Attribute.String & Attribute.Required & Attribute.Unique;
+    Position: Attribute.String;
+    EducationCertsAndLicenses: Attribute.JSON;
+    Bio: Attribute.Text;
+    Portrait: Attribute.Media<'images'>;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::profile.profile',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::profile.profile',
+      'oneToOne',
+      'admin::user'
+    > &
       Attribute.Private;
   };
 }
@@ -861,8 +915,9 @@ declare module '@strapi/types' {
       'plugin::users-permissions.permission': PluginUsersPermissionsPermission;
       'plugin::users-permissions.role': PluginUsersPermissionsRole;
       'plugin::users-permissions.user': PluginUsersPermissionsUser;
-      'api::navigation.navigation': ApiNavigationNavigation;
+      'api::contact-info.contact-info': ApiContactInfoContactInfo;
       'api::page.page': ApiPagePage;
+      'api::profile.profile': ApiProfileProfile;
     }
   }
 }

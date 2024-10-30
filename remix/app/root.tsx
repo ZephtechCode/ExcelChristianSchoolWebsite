@@ -8,25 +8,28 @@ import {
 } from "@remix-run/react";
 import "./globals.css";
 import Nav from "./components/Nav";
+import Hero from "./components/Hero";
+import { getContactData, getPages } from "./utils/api";
+import Footer from "./components/Footer";
+import Sitemap from "./components/Sitemap";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+
+const queryClient = new QueryClient();
 
 export async function loader() {
-  const response = await fetch(
-    `${process.env.STRAPI_URL}/api/navigation?populate=*`,
-    {
-      headers: {
-        Authorization: `Bearer ${process.env.STRAPI_API_KEY}`,
-      },
-    }
-  );
-  const data = await response.json();
-  if (data.data.length === 0) {
-    throw new Response("Not Found", { status: 404 });
-  }
-
-  return json(data.data);
+  const [contactInfo, pageData] = await Promise.all([
+    getContactData(),
+    getPages(),
+  ]);
+  console.log(process.env.STRAPI_URL);
+  return json({
+    contactInfo,
+    pageData,
+    strapiUrl: process.env.STRAPI_URL,
+  });
 }
 
-export function Layout({ children }: { children: React.ReactNode }) {
+export default function App() {
   return (
     <html lang="en">
       <head>
@@ -36,15 +39,18 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <Links />
       </head>
       <body>
-        <Nav />
-        {children}
-        <ScrollRestoration />
-        <Scripts />
+        <QueryClientProvider client={queryClient}>
+          <Hero />
+          <Nav />
+          <main>
+            <Outlet />
+          </main>
+          <Footer />
+          <Sitemap />
+          <ScrollRestoration />
+          <Scripts />
+        </QueryClientProvider>
       </body>
     </html>
   );
-}
-
-export default function App() {
-  return <Outlet />;
 }

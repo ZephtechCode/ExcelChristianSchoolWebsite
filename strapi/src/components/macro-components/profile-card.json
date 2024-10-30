@@ -1,0 +1,15 @@
+{
+  "collectionName": "components_macro_components_profile_cards",
+  "info": {
+    "displayName": "Profile Card",
+    "icon": "oneToMany"
+  },
+  "options": {},
+  "attributes": {
+    "profiles": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::profile.profile"
+    }
+  }
+}

@@ -4,21 +4,42 @@
   "info": {
     "singularName": "page",
     "pluralName": "pages",
-    "displayName": "Page"
+    "displayName": "Page",
+    "description": ""
   },
   "options": {
     "draftAndPublish": true
   },
   "pluginOptions": {},
   "attributes": {
-    "Content": {
-      "type": "blocks"
-    },
     "Title": {
-      "type": "string"
+      "type": "string",
+      "required": true
     },
-    "slug": {
-      "type": "string"
+    "Slug": {
+      "type": "uid",
+      "targetField": "Title",
+      "required": true
+    },
+    "Children": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::page.page",
+      "mappedBy": "Parent"
+    },
+    "Parent": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::page.page",
+      "inversedBy": "Children"
+    },
+    "Content": {
+      "type": "dynamiczone",
+      "components": [
+        "mini-components.button-framed",
+        "macro-components.rich-text",
+        "macro-components.profile-card"
+      ]
     }
   }
 }
