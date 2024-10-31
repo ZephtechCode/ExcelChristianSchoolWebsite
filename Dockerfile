@@ -56,5 +56,5 @@ ENV STRAPI_API_KEY=0a8a517c97bfe1f056afdaf642b28f91328ba65c5618b55755f4e902afc14
 # Expose port 1337 for Strapi and 3000 for Remix
 EXPOSE 1337 3000
 
-# Start both applications
-CMD yarn workspace strapi start & yarn workspace remix start
+# Start both applications with the correct commands
+CMD (cd strapi && yarn start) & (cd remix && yarn start)
