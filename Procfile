@@ -1,1 +1,1 @@
-web: yarn workspace strapi start & yarn workspace remix start
+web: cd strapi && yarn start & cd ../remix && yarn start
