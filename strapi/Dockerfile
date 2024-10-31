@@ -1,16 +1,18 @@
-# strapi/Dockerfile
-FROM node:20-alpine
+# Use a base image for Node.js
+FROM node:18-alpine
 
+# Set working directory
 WORKDIR /app
 
+# Copy and install dependencies
 COPY package.json yarn.lock ./
-
-# Install dependencies
 RUN yarn install
 
+# Copy the rest of the Remix app
 COPY . .
 
-ENV PORT=1337
-EXPOSE 1337
+# Build Remix
+RUN yarn build
 
+# Start Remix
 CMD ["yarn", "start"]
