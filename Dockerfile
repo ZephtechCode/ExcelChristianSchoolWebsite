@@ -2,18 +2,18 @@
 # Stage 1 - Build Strapi and Remix
 FROM node:18 AS build
 
-# Set working directory
+# Set the working directory
 WORKDIR /app
 
-# Copy root-level package.json and yarn.lock
-COPY package.json yarn.lock ./
+# Copy the root-level package.json and yarn.lock
+COPY ./package.json ./yarn.lock ./
 
 # Install root dependencies
 RUN yarn install
 
-# Copy Strapi and Remix directories into the build context
-COPY strapi/package.json strapi/yarn.lock ./strapi/
-COPY remix/package.json remix/yarn.lock ./remix/
+# Copy the package.json and yarn.lock files for each workspace
+COPY ./strapi/package.json ./strapi/yarn.lock ./strapi/
+COPY ./remix/package.json ./remix/yarn.lock ./remix/
 
 # Install dependencies for each workspace
 RUN yarn workspace strapi install && yarn workspace remix install
@@ -28,7 +28,7 @@ RUN yarn workspace remix build
 # Stage 2 - Serve the applications
 FROM node:18
 
-# Set working directory
+# Set the working directory
 WORKDIR /app
 
 # Copy over built files and dependencies from the build stage
