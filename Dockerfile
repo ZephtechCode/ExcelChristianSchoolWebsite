@@ -5,11 +5,14 @@ FROM node:18 AS build
 # Set working directory
 WORKDIR /app
 
-# Copy package.json and yarn.lock
+# Copy package.json and yarn.lock for root and install dependencies
 COPY package.json yarn.lock ./
-
-# Install dependencies
 RUN yarn install
+
+# Copy Strapi and Remix directories and install their dependencies
+COPY strapi/package.json strapi/yarn.lock ./strapi/
+COPY remix/package.json remix/yarn.lock ./remix/
+RUN yarn workspace strapi install && yarn workspace remix install
 
 # Copy the entire app into the container
 COPY . .
@@ -26,7 +29,7 @@ FROM node:18
 # Set working directory
 WORKDIR /app
 
-# Copy over built files and node_modules from build stage
+# Copy over built files and node_modules from the build stage
 COPY --from=build /app /app
 
 # Set environment variables for Strapi
@@ -37,7 +40,7 @@ ENV HOST=0.0.0.0 \
     ADMIN_JWT_SECRET=w6ZfM4OftIw9FyPL3XEplA== \
     TRANSFER_TOKEN_SALT=tmxQnznXpdgFOm7GynE8iA==
 
-# Set environment variables for PostgreSQL connection
+# Set environment variables for PostgreSQL connection for Strapi
 ENV DATABASE_CLIENT=postgres \
     DATABASE_HOST=website-postgres-do-user-18183023-0.i.db.ondigitalocean.com \
     DATABASE_PORT=25060 \
