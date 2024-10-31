@@ -2,34 +2,36 @@
 # Stage 1 - Build Strapi and Remix
 FROM node:18 AS build
 
-# Set working directory
+# Set the working directory explicitly
 WORKDIR /app
 
-# Copy package.json and yarn.lock for root and install dependencies
+# Copy root-level files explicitly
 COPY package.json yarn.lock ./
+
+# Install root dependencies
 RUN yarn install
 
-# Copy Strapi and Remix directories and install their dependencies
+# Copy Strapi and Remix directories
 COPY strapi/package.json strapi/yarn.lock ./strapi/
 COPY remix/package.json remix/yarn.lock ./remix/
+
+# Install dependencies for each workspace
 RUN yarn workspace strapi install && yarn workspace remix install
 
-# Copy the entire app into the container
+# Copy the entire application code into the Docker container
 COPY . .
 
-# Build Strapi
+# Build Strapi and Remix
 RUN yarn workspace strapi build
-
-# Build Remix
 RUN yarn workspace remix build
 
 # Stage 2 - Serve the applications
 FROM node:18
 
-# Set working directory
+# Set the working directory
 WORKDIR /app
 
-# Copy over built files and node_modules from the build stage
+# Copy over built files and dependencies from the build stage
 COPY --from=build /app /app
 
 # Set environment variables for Strapi
